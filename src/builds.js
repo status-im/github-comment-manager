@@ -1,7 +1,10 @@
+import Joi from 'joi'
 import Loki from 'lokijs'
+import schema from './schema'
 
 class Builds {
   constructor(path, interval) {
+    this.schema = schema
     this.db = new Loki(path, {
       autoload: true,
       autosave: true,
@@ -21,6 +24,10 @@ class Builds {
     }
     /* just to make sure we save on close */
     this.db.on('close', () => this.save())
+  }
+
+  validate (build) {
+    return Joi.validate(build, this.schema)
   }
 
   async save () {

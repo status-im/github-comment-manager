@@ -1,17 +1,16 @@
 import Koa from 'koa'
-import Router from 'koa-router'
 import JSON from 'koa-json'
+import JoiRouter from 'koa-joi-router'
 import BodyParser from 'koa-bodyparser'
 
 const App = (ghc) => {
   const app = new Koa()
-  const router = new Router()
+  const router = new JoiRouter()
 
-  app.use(BodyParser({onerror:console.error}))
-     .use(router.routes())
-     .use(router.allowedMethods())
+  app.use(router.middleware())
+     .use(BodyParser({onerror:console.error}))
      .use(JSON({pretty: true}))
-
+     
   app.on('error', (err, ctx) => {
     console.error('server error', err, ctx)
   })
@@ -20,11 +19,19 @@ const App = (ghc) => {
     ctx.body = 'OK'
   })
 
-  router.post('/builds/:pr', async (ctx) => {
-    /* TODO add validation of received JSON body */
-    await ghc.db.addBuild(ctx.params.pr, ctx.request.body)
-    await ghc.update(ctx.params.pr)
-    ctx.body = {status:'ok'}
+  router.route({
+    method: 'post',
+    path: '/builds/:pr',
+    validate: {
+      type: 'json',
+      body: ghc.db.schema,
+    },
+    handler: async (ctx) => {
+      /* TODO add validation of received JSON body */
+      await ghc.db.addBuild(ctx.params.pr, ctx.request.body)
+      await ghc.update(ctx.params.pr)
+      ctx.body = {status:'ok'}
+    }
   })
   
   router.get('/builds/:pr', async (ctx) => {
