@@ -1,0 +1,67 @@
+{
+  "name": "click-counter",
+  "version": "0.0.1",
+  "description": "Minimal API for counting clicks",
+  "repository": "https://github.com/status-im/clicks-counter",
+  "main": "index.js",
+  "dependencies": {
+    "@octokit/rest": "^16.2.0",
+    "koa": "^2.5.3",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-transform-async-to-generator": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0-beta.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-print": "^5.0.0",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.4",
+    "sinon": "^7.1.1",
+    "supertest": "^3.3.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest",
+    "testw": "jest --watchAll",
+    "devel": "gulp devel",
+    "clean": "gulp clean",
+    "build": "gulp build",
+    "image": "docker build -t statusteam/clicks-counter .",
+    "push": "docker push statusteam/clicks-counter"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!**/node_modules/**",
+      "!**/build/**",
+      "!**/coverage/**"
+    ],
+    "coverageReporters": [
+      "text",
+      "text-summary"
+    ],
+    "testRegex": "/test/.*.js$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/build/",
+      "/coverage/"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
