@@ -25,12 +25,15 @@ class Builds {
 
   async save () {
     this.db.saveDatabase((err) => {
-      console.log(err?"error saving":"saved");
+      if (err) { console.error('error saving', err) }
     })
   }
 
   async getBuilds (pr) {
-    const builds = await this.builds.find({pr})
+    const builds = await this.builds.chain()
+      .find({pr})
+      .simplesort('id')
+      .data()
     /* strip the $loki attribute */
     return builds.map((b) => {
       const {$loki, ...build} = b
