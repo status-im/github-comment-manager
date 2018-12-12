@@ -9,10 +9,13 @@ class Comments {
   constructor(client, owner, repo, builds) {
     this.gh = client
     this.db = builds
-    this.nj = nunjucks.configure()
-    this.template = template
     this.repo = repo   /* name of repo to query */
     this.owner = owner /* name of user who makes the comments */
+    /* setup templating for comments */
+    this.template = template
+    this.nj = new nunjucks.Environment()
+    /* add helper for formatting dates */
+    this.nj.addFilter('date', (data) => (new Date(data)).toLocaleTimeString('utc'))
   }
 
   async listComments (pr, per_page = PER_PAGE, sort = 'updated', direction = 'desc') {

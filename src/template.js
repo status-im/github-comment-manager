@@ -4,9 +4,9 @@ module.exports = `
 |-|-|-|-|-|-|-|
 {% for b in builds -%}
 {%- if b.success -%}
-| :heavy_check_mark: | {{ b.commit }} | {{ b.meta.created }} | \`{{ b.platform }}\` | [{{ b.pr }}#{{ b.id }}]({{ b.url }}) | {{ b.duration }} | [:package: {{ b.platform }}]({{ b.pkg_url }}) |
+| :heavy_check_mark: | {{ b.commit }} | {{ b.meta.created | date }} | \`{{ b.platform }}\` | [#{{ b.id }}]({{ b.url }}) | {{ b.duration }} | [:package: {{ b.platform }}]({{ b.pkg_url }}) |
 {% else -%}
-| :x: | {{ b.commit }} | {{ b.meta.created }} | \`{{ b.platform }}\` | [{{ b.pr }}#{{ b.id }}]({{ b.url }}) | {{ b.duration }} | [:page_facing_up: build log]({{ b.pkg_url }}consoleText) |
+| :x: | {{ b.commit }} | {{ b.meta.created | date }} | \`{{ b.platform }}\` | [#{{ b.id }}]({{ b.url }}) | {{ b.duration }} | [:page_facing_up: build log]({{ b.pkg_url }}consoleText) |
 {% endif -%}
 {%- endfor -%}
 `
