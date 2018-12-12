@@ -37,7 +37,7 @@ const App = (ghc) => {
   router.get('/builds/:pr', async (ctx) => {
     /* TODO add validation of id parameter */
     const builds = await ghc.db.getBuilds(ctx.params.pr)
-    ctx.body = {status:'ok', builds}
+    ctx.body = {count: builds.length, builds}
   })
 
   return app
