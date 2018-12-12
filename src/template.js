@@ -1,6 +1,6 @@
 module.exports = `
 ### Jenkins Builds
-| Status | Commit | Platform | Build | Duration | Result |
+| :grey_question: | Commit | Platform | Build | Duration | Result |
 |-|-|-|-|-|-|
 {% for b in builds -%}
 {% if b.success -%}
