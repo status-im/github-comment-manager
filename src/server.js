@@ -1,7 +1,6 @@
 import Logger from 'koa-logger'
 
 import App from './app'
-import Loki from 'lokijs'
 import Octokit from '@octokit/rest'
 import Builds from './builds'
 import Comments from './comments'
@@ -11,15 +10,16 @@ const LISTEN_PORT = process.env.LISTEN_PORT || 3000
 const GH_TOKEN = process.env.GH_TOKEN || null
 const GH_REPO_OWNER = 'status-im'
 const GH_REPO_NAME = 'status-react'
-const DB_PATH = '/tmp/db.json'
+const DB_PATH = '/tmp/ghcomments.db'
+const DB_SAVE_INTERVAL = 1000
 
 /* to store current builds bound to a PR */
-const db = new Loki(DB_PATH, {autosave:true})
+const builds = new Builds(DB_PATH, DB_SAVE_INTERVAL)
+
 /* necessary to post and update comments */
 const gh = new Octokit()
 gh.authenticate({type: 'token', token: GH_TOKEN})
 
-const builds = new Builds(db)
 const ghc = new Comments(gh, GH_REPO_OWNER, GH_REPO_NAME, builds)
 const app = App(ghc, builds)
 
