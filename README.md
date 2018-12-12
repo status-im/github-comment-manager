@@ -7,10 +7,14 @@ The problem this solves is posting comments in a PR from multiple builds without
 # Example Comment
 
 ---
+### Jenkins Builds
 | Status | Commit | Build | Duration | Result |
 |-|-|-|-|-|
 | :x: | 5b1b9e9f | [prs/android-e2e/PR-7056#3](https://ci.status.im/job/status-react/job/prs/job/android-e2e/job/PR-7056/3/) | ~6 min | [:page_facing_up: build log](https://ci.status.im/job/status-react/job/prs/job/android-e2e/job/PR-7056/3//consoleText) |
 | :heavy_check_mark: | 5b1b9e9f | [prs/macos/PR-7056#3](https://ci.status.im/job/status-react/job/prs/job/macos/job/PR-7056/3/) | ~13 min | [:package: macos package](https://status-im-prs.ams3.digitaloceanspaces.com/StatusIm-181212-143527-5b1b9e-pr.dmg) |
+| | | | | |
+| :x: | 9e9528f | [prs/android-e2e/PR-7056#4](https://ci.status.im/job/status-react/job/prs/job/android-e2e/job/PR-7056/4/) | ~7 min | [:page_facing_up: build log](https://ci.status.im/job/status-react/job/prs/job/android-e2e/job/PR-7056/4//consoleText) |
+| :heavy_check_mark: | 9e9528f | [prs/macos/PR-7056#4](https://ci.status.im/job/status-react/job/prs/job/macos/job/PR-7056/4/) | ~14 min | [:package: macos package](https://status-im-prs.ams3.digitaloceanspaces.com/StatusIm-181212-143527-5b1b9e-pr.dmg) |
 ---
 
 # API
