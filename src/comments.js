@@ -9,7 +9,7 @@ class Comments {
   constructor(client, owner, repo, builds) {
     this.gh = client
     this.db = builds
-    this.nj = nunjucks.configure({autoescape: false})
+    this.nj = nunjucks.configure()
     this.template = template
     this.repo = repo   /* name of repo to query */
     this.owner = owner /* name of user who makes the comments */
