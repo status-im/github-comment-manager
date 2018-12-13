@@ -8,20 +8,24 @@ The problem this solves is posting comments in a PR from multiple builds without
 
 ---
 ### Jenkins Builds
-| Status | Commit | Platform | Build | Duration | Result |
-|-|-|-|-|-|-|
-| :x: | 5b1b9e9f | `android-e2e` | [PR-7056#3](https://ci.status.im/job/status-react/job/prs/job/android-e2e/job/PR-7056/3/) | ~6 min | [:page_facing_up: build log](https://ci.status.im/job/status-react/job/prs/job/android-e2e/job/PR-7056/3//consoleText) |
-| :heavy_check_mark: | 5b1b9e9f | `macos` | [PR-7056#3](https://ci.status.im/job/status-react/job/prs/job/macos/job/PR-7056/3/) | ~13 min | [:package: macos package](https://status-im-prs.ams3.digitaloceanspaces.com/StatusIm-181212-143527-5b1b9e-pr.dmg) |
-| | | | | | |
-| :x: | 9e9528f | `android-e2e` | [PR-7056#4](https://ci.status.im/job/status-react/job/prs/job/android-e2e/job/PR-7056/4/) | ~7 min | [:page_facing_up: build log](https://ci.status.im/job/status-react/job/prs/job/android-e2e/job/PR-7056/4//consoleText) |
-| :heavy_check_mark: | 9e9528f | `macos` | [PR-7056#4](https://ci.status.im/job/status-react/job/prs/job/macos/job/PR-7056/4/) | ~14 min | [:package: macos package](https://status-im-prs.ams3.digitaloceanspaces.com/StatusIm-181212-143527-5b1b9e-pr.dmg) |
+### Jenkins Builds
+| :grey_question: | Commit | :hash: | Finished | Duration | Platform | Result |
+|-|-|-|-|-|-|-|
+| | | | | | | |
+| :x: | 1ds41ay | [#3](https://google.pl) | 12:12:55 AM | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
+| :x: | 1ds41ay | [#3](https://google.pl) | 12:13:18 AM | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
+| :heavy_check_mark: | 1ds41ay | [#3](https://google.pl) | 12:13:53 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
+| :heavy_check_mark: | 1ds41ay | [#3](https://google.pl) | 12:13:34 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
+| :heavy_check_mark: | 1ds41ay | [#3](https://google.pl) | 12:14:44 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
 ---
 
 # API
 
 It exposes just 1 call:
 
-* `PUT /comment/:id` - Post a comment for PR with given ID.
+* `POST /builds/:id` - Post a comment for PR with given ID.
+* `POST /builds/:id/refresh` - Update the comment for PR with given ID.
+* `POST /comments` - Show currently managed comments in PRs.
 
 By default it listens on `localhost:8080`.
 
