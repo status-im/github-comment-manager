@@ -32,6 +32,7 @@ const App = (ghc) => {
       /* TODO add validation of received JSON body */
       await ghc.db.addBuild(ctx.params.pr, ctx.request.body)
       await ghc.update(ctx.params.pr)
+      ctx.status = 201
       ctx.body = {status:'ok'}
     }
   })
@@ -40,6 +41,7 @@ const App = (ghc) => {
     /* just re-render the comment */
     await ghc.update(ctx.params.pr)
     ctx.status = 201
+    ctx.body = {status:'ok'}
   })
 
   router.get('/builds/:pr', async (ctx) => {

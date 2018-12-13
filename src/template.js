@@ -3,7 +3,7 @@ module.exports = `
 | :grey_question: | Commit | :hash: | Finished | Duration | Platform | Result |
 |-|-|-|-|-|-|-|
 {% for b in builds -%}
-{%- if b.id > builds[loop.index0-1].id -%}
+{%- if b.commit != builds[loop.index0-1].commit -%}
 | | | | | | | |
 {% endif -%}
 {%- if b.success -%}
