@@ -34,6 +34,11 @@ const App = (ghc) => {
     }
   })
   
+  router.post('/builds/:pr/refresh', async (ctx) => {
+    /* just re-render the comment */
+    await ghc.update(ctx.params.pr)
+  })
+
   router.get('/builds/:pr', async (ctx) => {
     /* TODO add validation of id parameter */
     const builds = await ghc.db.getBuilds(ctx.params.pr)
