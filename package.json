@@ -6,6 +6,7 @@
   "main": "index.js",
   "dependencies": {
     "@octokit/rest": "^16.2.0",
+    "handlebars": "^4.0.12",
     "joi": "^14.3.0",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
@@ -13,8 +14,7 @@
     "koa-json": "^2.0.2",
     "koa-json-error": "^3.1.2",
     "koa-logger": "^3.2.0",
-    "lokijs": "^1.5.5",
-    "nunjucks": "^3.1.4"
+    "lokijs": "^1.5.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

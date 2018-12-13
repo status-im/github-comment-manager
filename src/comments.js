@@ -1,4 +1,4 @@
-import nunjucks from 'nunjucks'
+import Handlebars from 'handlebars'
 import template from './template'
 
 /* in theory the jenkins build comment should be the first one */
@@ -11,11 +11,18 @@ class Comments {
     this.db = builds
     this.repo = repo   /* name of repo to query */
     this.owner = owner /* name of user who makes the comments */
-    /* setup templating for comments */
-    this.template = template
-    this.nj = new nunjucks.Environment()
     /* add helper for formatting dates */
-    this.nj.addFilter('date', (data) => (new Date(data)).toLocaleTimeString('utc'))
+    Handlebars.registerHelper('date', (data) => 
+      new Handlebars.SafeString((new Date(data)).toLocaleTimeString('utc'))
+    )
+    /* add helper for checking change in commit */
+    Handlebars.registerHelper('commitChanged', (data, index, options) => {
+      if (index == 0) { return options.inverse(this); }
+      if (data[index].commit !== data[index-1].commit) { return options.fn(this); }
+      return options.inverse(this);
+    })
+    /* setup templating for comments */
+    this.template = Handlebars.compile(template);
   }
 
   async renderComment (pr) {
@@ -23,7 +30,7 @@ class Comments {
     if (builds.length == 0) {
       throw Error('No builds exist for this PR')
     }
-    return this.nj.renderString(this.template, {builds})
+    return this.template({builds})
   }
 
   async postComment (pr) {

@@ -2,14 +2,14 @@ module.exports = `
 ### Jenkins Builds
 | :grey_question: | Commit | :hash: | Finished | Duration | Platform | Result |
 |-|-|-|-|-|-|-|
-{% for b in builds -%}
-{%- if b.commit != builds[loop.index0-1].commit -%}
+{{#each builds}}
+{{#commitChanged ../builds @index}}
 | | | | | | | |
-{% endif -%}
-{%- if b.success -%}
-| :heavy_check_mark: | {{ b.commit }} | [{{ b.id }}]({{ b.url }}) | {{ b.meta.created | date }} | {{ b.duration }} | \`{{ b.platform }}\` | [:package: package]({{ b.pkg_url }}) |
-{% else -%}
-| :x: | {{ b.commit }} | [{{ b.id }}]({{ b.url }}) | {{ b.meta.created | date }} | {{ b.duration }} | \`{{ b.platform }}\` | [:page_facing_up: build log]({{ b.pkg_url }}consoleText) |
-{% endif -%}
-{%- endfor -%}
+{{/commitChanged}}
+{{#if this.success}}
+| :heavy_check_mark: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{date this.meta.created }} | {{ this.duration }} | \`{{ this.platform }}\` | [:package: package]({{ this.pkg_url }}) |
+{{else}}
+| :x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{date this.meta.created }} | {{ this.duration }} | \`{{ this.platform }}\` | [:page_facing_up: build log]({{ this.pkg_url }}consoleText) |
+{{/if}}
+{{/each}}
 `
