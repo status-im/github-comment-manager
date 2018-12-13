@@ -1,5 +1,6 @@
 import Koa from 'koa'
 import JSON from 'koa-json'
+import JsonError from 'koa-json-error'
 import JoiRouter from 'koa-joi-router'
 import BodyParser from 'koa-bodyparser'
 
@@ -7,9 +8,10 @@ const App = (ghc) => {
   const app = new Koa()
   const router = new JoiRouter()
 
-  app.use(router.middleware())
+  app.use(JSON({pretty: true}))
+     .use(JsonError())
+     .use(router.middleware())
      .use(BodyParser({onerror:console.error}))
-     .use(JSON({pretty: true}))
      
   app.on('error', (err, ctx) => {
     console.error('server error', err, ctx)
