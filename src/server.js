@@ -6,7 +6,7 @@ import Builds from './builds'
 import Comments from './comments'
 
 /* DEFAULTS */
-const LISTEN_PORT = process.env.LISTEN_PORT || 3000
+const LISTEN_PORT = process.env.LISTEN_PORT || 8000
 const GH_TOKEN = process.env.GH_TOKEN || null
 const GH_REPO_OWNER = 'status-im'
 const GH_REPO_NAME = 'status-react'
