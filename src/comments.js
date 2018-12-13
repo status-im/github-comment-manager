@@ -20,6 +20,9 @@ class Comments {
 
   async renderComment (pr) {
     const builds = await this.db.getBuilds(pr)
+    if (builds.length == 0) {
+      throw Error('No builds exist for this PR')
+    }
     return this.nj.renderString(this.template, {builds})
   }
 

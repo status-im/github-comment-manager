@@ -29,7 +29,9 @@ const App = (ghc) => {
       body: ghc.db.schema,
     },
     handler: async (ctx) => {
+      /* save the build */
       await ghc.db.addBuild(ctx.params.pr, ctx.request.body)
+      /* post or update the comment */
       await ghc.update(ctx.params.pr)
       ctx.status = 201
       ctx.body = {status:'ok'}
