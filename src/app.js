@@ -37,6 +37,7 @@ const App = (ghc) => {
   router.post('/builds/:pr/refresh', async (ctx) => {
     /* just re-render the comment */
     await ghc.update(ctx.params.pr)
+    ctx.status = 201
   })
 
   router.get('/builds/:pr', async (ctx) => {
