@@ -9,16 +9,16 @@ const App = (ghc) => {
   const app = new Koa()
   const router = new JoiRouter()
 
+  app.on('error', (err, ctx) => {
+    console.error('server error', err, ctx)
+  })
+
   app.use(Logger())
      .use(JSON({pretty: true}))
      .use(JsonError())
      .use(router.middleware())
      .use(BodyParser({onerror:console.error}))
-     
-  app.on('error', (err, ctx) => {
-    console.error('server error', err, ctx)
-  })
-  
+
   router.get('/health', async (ctx) => {
     ctx.body = 'OK'
   })
