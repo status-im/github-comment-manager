@@ -1,5 +1,6 @@
 import Koa from 'koa'
 import JSON from 'koa-json'
+import Logger from 'koa-logger'
 import JsonError from 'koa-json-error'
 import JoiRouter from 'koa-joi-router'
 import BodyParser from 'koa-bodyparser'
@@ -8,7 +9,8 @@ const App = (ghc) => {
   const app = new Koa()
   const router = new JoiRouter()
 
-  app.use(JSON({pretty: true}))
+  app.use(Logger())
+     .use(JSON({pretty: true}))
      .use(JsonError())
      .use(router.middleware())
      .use(BodyParser({onerror:console.error}))
