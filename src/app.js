@@ -29,7 +29,6 @@ const App = (ghc) => {
       body: ghc.db.schema,
     },
     handler: async (ctx) => {
-      /* TODO add validation of received JSON body */
       await ghc.db.addBuild(ctx.params.pr, ctx.request.body)
       await ghc.update(ctx.params.pr)
       ctx.status = 201
@@ -45,9 +44,13 @@ const App = (ghc) => {
   })
 
   router.get('/builds/:pr', async (ctx) => {
-    /* TODO add validation of id parameter */
     const builds = await ghc.db.getBuilds(ctx.params.pr)
     ctx.body = {count: builds.length, builds}
+  })
+
+  router.get('/comments', async (ctx) => {
+    const comments = await ghc.db.getComments()
+    ctx.body = {count: comments.length, comments}
   })
 
   return app

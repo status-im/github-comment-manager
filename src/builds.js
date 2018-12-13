@@ -72,6 +72,15 @@ class Builds {
     const rval = await this.comments.findOne({pr: pr})
     return rval ? rval.comment_id : null
   }
+
+  async getComments (pr) {
+    const comments = await this.comments.chain().simplesort('pr').data();
+    /* strip the loki attributes */
+    return comments.map((c) => {
+      const {$loki, meta, ...comment} = c
+      return comment
+    })
+  }
 }
 
 module.exports = Builds
