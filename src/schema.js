@@ -1,7 +1,7 @@
 import Joi from 'joi'
  
 const schema = Joi.object().keys({
-  id: Joi.number().positive().required(),
+  id: Joi.alternatives().try(Joi.number().positive(), Joi.string()).required(),
   commit: Joi.string().regex(/^[a-zA-Z0-9]{6,40}$/).required(),
   success: Joi.boolean().required(),
   platform: Joi.string().max(20).required(),
