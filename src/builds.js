@@ -49,7 +49,7 @@ class Builds {
   async getBuilds (pr) {
     const builds = await this.builds.chain()
       .find({pr})
-      .sort(this.buildsSort)
+      .simplesort('$loki')
       .data()
     /* strip the $loki attribute */
     return builds.map((b) => {
