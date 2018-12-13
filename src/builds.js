@@ -49,10 +49,12 @@ class Builds {
   }
 
   async addBuild (pr, build) {
+    console.log(`Storing build for PR-${pr}: #${build.id} for ${build.platform}`)
     return await this.builds.insert({pr, ...build})
   }
 
   async addComment (pr, comment_id) {
+    console.log(`Storing comment for PR-${pr}: ${comment_id}`)
     return await this.comments.insert({pr, comment_id})
   }
 
