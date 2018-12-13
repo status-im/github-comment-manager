@@ -73,7 +73,7 @@ class Comments {
     /* check if comment was already posted */
     let id = await this.db.getCommentID(pr) || this.findCommentID(pr)
     if (id) {
-      this.updateComment(pr, id)
+      await this.updateComment(pr, id)
     } else {
       id = await this.postComment(pr)
       await this.db.addComment(pr, id)
