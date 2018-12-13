@@ -29,15 +29,15 @@ class Comments {
     return rval.data
   }
 
-  async firstComment (pr) {
-    const rval = await this.listComments(pr, 1, 'created', 'desc')
-    return rval[0]
-  }
-
   async findComment (pr) {
     const comments = await this.listComments(pr)
     /* find comment matching the regex */
     return comments.find(c => c.body.match(COMMENT_REGEX))
+  }
+
+  async findCommentID (pr) {
+    /* we use this as a fallback in case storage failed */
+    return await this.findComment(pr).id
   }
 
   async renderComment (pr) {
@@ -71,7 +71,7 @@ class Comments {
 
   async update (pr) {
     /* check if comment was already posted */
-    let id = await this.db.getCommentID(pr)
+    let id = await this.db.getCommentID(pr) || this.findCommentID(pr)
     if (id) {
       this.updateComment(pr, id)
     } else {
