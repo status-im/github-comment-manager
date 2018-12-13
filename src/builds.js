@@ -36,20 +36,10 @@ class Builds {
     })
   }
 
-  buildsSort (o1, o2) {
-    /* sort first by build ID, then by platform */
-    if (o1.id === o2.id) {
-      if (o1.meta.created > o2.meta.created) return 1;
-      if (o1.meta.created < o2.meta.created) return -1;
-    }
-    if (o1.id > o2.id) return 1;
-    if (o1.id < o2.id) return -1;
-  }
-
   async getBuilds (pr) {
     const builds = await this.builds.chain()
       .find({pr})
-      .simplesort('$loki')
+      .compoundsort(['$loki', 'id', 'platform'])
       .data()
     /* strip the $loki attribute */
     return builds.map((b) => {
