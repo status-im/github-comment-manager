@@ -1,8 +1,8 @@
 {
   "name": "click-counter",
   "version": "0.0.1",
-  "description": "Minimal API for counting clicks",
-  "repository": "https://github.com/status-im/clicks-counter",
+  "description": "Minimal API for managing GitHub comments for CIclicks.",
+  "repository": "https://github.com/status-im/github-comment-manager",
   "main": "index.js",
   "dependencies": {
     "@octokit/rest": "^16.2.0",
@@ -40,8 +40,8 @@
     "devel": "gulp devel",
     "clean": "gulp clean",
     "build": "gulp build",
-    "image": "docker build -t statusteam/clicks-counter .",
-    "push": "docker push statusteam/clicks-counter"
+    "image": "docker build -t statusteam/ghcmgr .",
+    "push": "docker push statusteam/ghcmgr"
   },
   "jest": {
     "moduleFileExtensions": [
