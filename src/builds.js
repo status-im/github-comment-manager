@@ -39,8 +39,8 @@ class Builds {
   buildsSort (o1, o2) {
     /* sort first by build ID, then by platform */
     if (o1.id === o2.id) {
-      if (o1.platform > o2.platform) return 1;
-      if (o1.platform < o2.platform) return -1;
+      if (o1.meta.created > o2.meta.created) return 1;
+      if (o1.meta.created < o2.meta.created) return -1;
     }
     if (o1.id > o2.id) return 1;
     if (o1.id < o2.id) return -1;
