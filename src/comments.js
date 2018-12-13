@@ -18,28 +18,6 @@ class Comments {
     this.nj.addFilter('date', (data) => (new Date(data)).toLocaleTimeString('utc'))
   }
 
-  async listComments (pr, per_page = PER_PAGE, sort = 'updated', direction = 'desc') {
-    /* TODO pagination? */
-    const rval = await this.gh.issues.listComments({
-      owner: this.owner,
-      repo: this.repo,
-      number: pr,
-      sort, direction, per_page,
-    })
-    return rval.data
-  }
-
-  async findComment (pr) {
-    const comments = await this.listComments(pr)
-    /* find comment matching the regex */
-    return comments.find(c => c.body.match(COMMENT_REGEX))
-  }
-
-  async findCommentID (pr) {
-    /* we use this as a fallback in case storage failed */
-    return await this.findComment(pr).id
-  }
-
   async renderComment (pr) {
     const builds = await this.db.getBuilds(pr)
     return this.nj.renderString(this.template, {builds})
@@ -71,7 +49,7 @@ class Comments {
 
   async update (pr) {
     /* check if comment was already posted */
-    let id = await this.db.getCommentID(pr) || this.findCommentID(pr)
+    let id = await this.db.getCommentID(pr)
     if (id) {
       await this.updateComment(pr, id)
     } else {
