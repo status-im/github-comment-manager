@@ -3,7 +3,6 @@ FROM node:10.14-alpine
 WORKDIR /app
 
 COPY package.json ./
-RUN npm install yarn
 RUN yarn install --production
 
 COPY dist/ ./
