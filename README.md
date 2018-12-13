@@ -11,11 +11,11 @@ The problem this solves is posting comments in a PR from multiple builds without
 | :grey_question: | Commit | :hash: | Finished | Duration | Platform | Result |
 |-|-|-|-|-|-|-|
 | | | | | | | |
-| :x: | 1ds41ay | [#3](https://google.pl) | 12:12:55 AM | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
-| :x: | 1ds41ay | [#3](https://google.pl) | 12:13:18 AM | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
-| :heavy_check_mark: | 1ds41ay | [#3](https://google.pl) | 12:13:53 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
-| :heavy_check_mark: | 1ds41ay | [#3](https://google.pl) | 12:13:34 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
-| :heavy_check_mark: | 1ds41ay | [#3](https://google.pl) | 12:14:44 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
+| :x: | a088572b | [#3](https://google.pl) | 12:12:55 AM | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
+| :x: | a088572b | [#3](https://google.pl) | 12:13:18 AM | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
+| :heavy_check_mark: | a088572b | [#3](https://google.pl) | 12:13:53 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
+| :heavy_check_mark: | a088572b | [#3](https://google.pl) | 12:13:34 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
+| :heavy_check_mark: | a088572b | [#3](https://google.pl) | 12:14:44 AM | ~12 min | `ios` | [:package: package](https://google.pl) |
 ---
 
 # API
