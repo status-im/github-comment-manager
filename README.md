@@ -8,7 +8,6 @@ The problem this solves is posting comments in a PR from multiple builds without
 
 ---
 ### Jenkins Builds
-### Jenkins Builds
 | :grey_question: | Commit | :hash: | Finished | Duration | Platform | Result |
 |-|-|-|-|-|-|-|
 | | | | | | | |
