@@ -28,13 +28,54 @@ It exposes just 1 call:
 
 By default it listens on `localhost:8080`.
 
+# Usage
+
+```
+$ cat << EOF
+{
+  "id": 1,
+  "commit": "7367f3d5",
+  "success": true,
+  "platform": "linux",
+  "duration": "~15 min",
+  "url": "https://ci.status.im/job/status-react/job/prs/job/linux/job/PR-7123/1/",
+  "pkg_url": "https://status-im-prs.ams3.digitaloceanspaces.com/StatusIm-181212-211210-5157d2-pr.AppImage"
+}
+EOF >> /tmp/body/json
+
+$ curl -s -XPOST https://localhost:8000/builds/7123 -d@/tmp/body.json -H 'Content-Type: application/json'
+{
+  "status": "ok"
+}                                                                                                                                                                                     sochan@lilim: infra-misc% curl https://clicks.status.im/click                                                                                                    [10/17/18 11:22:50]
+$ curl -s -XPOST https://localhost:8000/builds/7123/refresh
+{
+  "status": "ok"
+}                                                                                                                                                                                     sochan@lilim: infra-misc% curl https://clicks.status.im/click                                                                                                    [10/17/18 11:22:50]
+```
+You can also check all PRs the application knows about:
+```
+$ curl -s http://localhost:8000/comments
+{
+  "count": 2,
+  "comments": [
+    {
+      "pr": "7000",
+      "comment_id": 446940840
+    },
+    {
+      "pr": "7084",
+      "comment_id": 446779864
+    }
+  ]
+}
+```
 # Configuration
 
 There are few environment variables you can set:
 
 * `LISTEN_PORT` - Default: `8000`
 
-# Usage
+# Building
 
 For development use:
 ```
