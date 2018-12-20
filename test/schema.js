@@ -18,11 +18,28 @@ const BUILD = {
 describe('Schema', () => {
   beforeEach(() => {
     /* refresh for every test */
-    build = Object.assign(BUILD)
+    build = Object.assign({}, BUILD)
   })
   
+  describe('commit', () => {
+    it('has to be a commit', async () => {
+      let rval = await Joi.validate(build, Schema)
+      expect(rval).to.eql(build)
+    })
+
+    it('can\'t be a null', () => {
+      build.commit = null
+      expect(Joi.validate(build, Schema)).to.be.rejectedWith('"commit" must be a string')
+    })
+
+    it('can\'t be a number', async () => {
+      build.commit = 1
+      expect(Joi.validate(build, Schema)).to.be.rejectedWith('"commit" must be a string')
+    })
+  })
+
   describe('pkg_url', () => {
-    it('can be a string', async () => {
+    it('has to be a URL', async () => {
       let rval = await Joi.validate(build, Schema)
       expect(rval).to.eql(build)
     })
@@ -35,11 +52,7 @@ describe('Schema', () => {
 
     it('can\'t be a number', async () => {
       build.pkg_url = 1
-      try {
-        await Joi.validate(build, Schema)
-      } catch (err) {
-        expect(err.message).to.contain('"pkg_url" must be a string')
-      }
+      expect(Joi.validate(build, Schema)).to.be.rejectedWith('"pkg_url" must be a string')
     })
   })
 })
