@@ -5,6 +5,18 @@ import template from './template'
 const PER_PAGE = 100
 const COMMENT_REGEX = /\#\#\# Jenkins Builds\n/
 
+/* compares commits of build and previous build */
+const commitHelper = (data, index, options) => {
+  if (index == 0) { return options.inverse(this); }
+  if (data[index].commit !== data[index-1].commit) { return options.fn(this); }
+  return options.inverse(this);
+}
+
+/* formats epoch time to human readable output */
+const dateHelper = (data) => {
+  return new Handlebars.SafeString((new Date(data)).toLocaleTimeString('utc'))
+}
+
 class Comments {
   constructor(client, owner, repo, builds) {
     this.gh = client
@@ -12,15 +24,9 @@ class Comments {
     this.repo = repo   /* name of repo to query */
     this.owner = owner /* name of user who makes the comments */
     /* add helper for formatting dates */
-    Handlebars.registerHelper('date', (data) => 
-      new Handlebars.SafeString((new Date(data)).toLocaleTimeString('utc'))
-    )
+    Handlebars.registerHelper('date', dateHelper)
     /* add helper for checking change in commit */
-    Handlebars.registerHelper('commitChanged', (data, index, options) => {
-      if (index == 0) { return options.inverse(this); }
-      if (data[index].commit !== data[index-1].commit) { return options.fn(this); }
-      return options.inverse(this);
-    })
+    Handlebars.registerHelper('commitChanged', commitHelper)
     /* setup templating for comments */
     this.template = Handlebars.compile(template);
   }
