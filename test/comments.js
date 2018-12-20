@@ -1,6 +1,5 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
-import Octokit from '@octokit/rest'
 
 import Builds from '../src/builds'
 import Comments from '../src/comments'
@@ -42,7 +41,12 @@ const COMMENT = `
 
 describe('Comments', () => {
   beforeEach(() => {
-    //client = sinon.createStubInstance(Octokit, {what: 2})
+    client = {
+      issues: {
+        createComment: sinon.stub().returns({ data: { id: 'ISSUE-ID' }}),
+        updateComment: sinon.stub().returns({ data: { id: 'ISSUE-ID' }}),
+      },
+    }
     builds = sinon.createStubInstance(Builds, {
       getBuilds: BUILDS,
     })
@@ -62,6 +66,19 @@ describe('Comments', () => {
     it('should render correctly', async () => {
       let body = await comments.renderComment('PR')
       expect(body).to.eq(COMMENT)
+    })
+  })
+
+  describe('postComment', () => {
+    it('should create a new comment', async () => {
+      let id = await comments.postComment('PR')
+      expect(id).to.eq('ISSUE-ID')
+      expect(client.issues.createComment).calledOnceWith({
+        body: sinon.match.any,
+        number: 'PR',
+        owner: 'owner',
+        repo: 'repo',
+      })
     })
   })
 })

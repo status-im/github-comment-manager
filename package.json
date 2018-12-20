@@ -23,6 +23,7 @@
     "@babel/plugin-transform-async-to-generator": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "gulp": "^3.9.1",
@@ -32,19 +33,28 @@
     "gulp-print": "^5.0.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
+    "nyc": "^13.1.0",
     "sinon": "^7.1.1",
+    "sinon-chai": "^3.3.0",
     "supertest": "^3.3.0"
   },
   "scripts": {
     "start": "node server.js",
     "test": "mocha --require @babel/register",
     "testw": "mocha --require @babel/register --watch",
+    "cover": "nyc mocha",
     "devel": "gulp devel",
     "clean": "gulp clean",
     "build": "gulp build",
     "image": "docker build -t statusteam/ghcmgr .",
     "push": "docker push statusteam/ghcmgr"
   },
+  "mocha": [
+    "@babel/register"
+  ],
+  "require": [
+    "@babel/register"
+  ],
   "keywords": [
     "github",
     "comments",
