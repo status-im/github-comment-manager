@@ -1,6 +1,7 @@
 const gulp = require('gulp')
 const babel = require('gulp-babel')
 const clean = require('gulp-clean')
+const mocha = require('gulp-mocha')
 const print = require('gulp-print').default
 const nodemon = require('gulp-nodemon')
 
@@ -17,7 +18,11 @@ gulp.task('clean', () =>
   gulp.src('dist/*').pipe(clean())
 )
 
-/* WARNING: This is broken right now */
+gulp.task('test', () =>
+  gulp.src('test/**/*.js', {read: false})
+    .pipe(mocha({reporter: 'list', compilers: '@babel/register'}))
+)
+
 gulp.task('build', () =>
   gulp.src('src/**/*.js')
     .pipe(babel())
@@ -25,4 +30,4 @@ gulp.task('build', () =>
     .pipe(gulp.dest('dist/'))
 )
 
-gulp.task('default', ['clean', 'build'])
+gulp.task('default', ['clean', 'test', 'build'])

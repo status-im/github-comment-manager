@@ -30,6 +30,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^8.0.0-beta.2",
     "gulp-clean": "^0.4.0",
+    "gulp-mocha": "^6.0.0",
     "gulp-nodemon": "^2.2.1",
     "gulp-print": "^5.0.0",
     "mocha": "^5.2.0",
@@ -41,7 +42,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "mocha --require @babel/register",
+    "test": "gulp test",
     "testw": "mocha --require @babel/register --watch",
     "cover": "nyc mocha",
     "devel": "gulp devel",
