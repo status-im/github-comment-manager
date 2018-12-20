@@ -5,16 +5,21 @@ import template from './template'
 const PER_PAGE = 100
 const COMMENT_REGEX = /\#\#\# Jenkins Builds\n/
 
-/* compares commits of build and previous build */
+/* loop helper compares commits of build and previous build */
 const commitHelper = (data, index, options) => {
   if (index == 0) { return options.inverse(this); }
   if (data[index].commit !== data[index-1].commit) { return options.fn(this); }
   return options.inverse(this);
 }
 
-/* formats epoch time to human readable output */
+/* turns epoch time to human readable format */
 const dateHelper = (data) => {
-  return new Handlebars.SafeString((new Date(data)).toLocaleTimeString('utc'))
+  return new Handlebars.SafeString(
+    (new Date(data))
+      .toISOString('utc')
+      .slice(0, 19)
+      .replace('T', ' ')
+  )
 }
 
 class Comments {

@@ -1,6 +1,6 @@
 module.exports = `
 ### Jenkins Builds
-| :grey_question: | Commit | :hash: | Finished | Duration | Platform | Result |
+| :grey_question: | Commit | :hash: | Finished (UTC) | Duration | Platform | Result |
 |-|-|-|-|-|-|-|
 {{#each builds}}
 {{#commitChanged ../builds @index}}
