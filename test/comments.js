@@ -1,33 +1,11 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
+import sample from './sample'
 import Builds from '../src/builds'
 import Comments from '../src/comments'
 
 let comments, client, builds
-
-const BUILDS = [
-  {
-    id: 'ID-1',
-    commit: 'COMMIT-1',
-    success: true,
-    platform: 'PLATFORM-1',
-    duration: 'DURATION-1',
-    url: 'URL-1',
-    pkg_url: 'PKG_URL-1',
-    meta: { created: 1545294393058 },
-  },
-  {
-    id: 'ID-2',
-    commit: 'COMMIT-2',
-    success: false,
-    platform: 'PLATFORM-2',
-    duration: 'DURATION-2',
-    url: 'URL-2',
-    pkg_url: 'PKG_URL-2',
-    meta: { created: 1545295528896 },
-  },
-]
 
 /* expected comment based on given builds */
 const COMMENT = `
@@ -48,7 +26,7 @@ describe('Comments', () => {
       },
     }
     builds = sinon.createStubInstance(Builds, {
-      getBuilds: BUILDS,
+      getBuilds: sample.BUILDS,
     })
     comments = new Comments(client, 'owner', 'repo', builds)
   })

@@ -2,24 +2,15 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import Joi from 'joi'
 
+import sample from './sample'
 import Schema from '../src/schema'
 
 let build
-/* example valid build */
-const BUILD = {
-  id: 'ID-1',
-  commit: 'abcd1234',
-  success: true,
-  platform: 'PLATFORM-1',
-  duration: 'DURATION-1',
-  url: 'https://example.com/some/url/path',
-  pkg_url: 'https://example.com/some/pkg/path',
-}
 
 describe('Schema', () => {
   beforeEach(() => {
     /* refresh for every test */
-    build = Object.assign({}, BUILD)
+    build = Object.assign({}, sample.BUILD)
   })
   
   describe('id', () => {

@@ -2,28 +2,23 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import request from 'supertest'
 
+import sample from './sample'
 import App from '../src/app'
 import Builds from '../src/builds'
 import Comments from '../src/comments'
 
-let comments
-let app
-const COMMENTS = [
-  { pr: 'PR-1', comment_id: 1234 },
-  { pr: 'PR-2', comment_id: 4321 },
-  { pr: 'PR-3', comment_id: 9753 },
-]
+let comments, app
 
 describe('App', () => {
   beforeEach(() => {
     comments = sinon.createStubInstance(Comments)
     comments.db = sinon.createStubInstance(Builds, {
-      getComments: COMMENTS,
+      getComments: sample.COMMENTS,
     }),
     app = App(comments)
   })
 
-  describe('/health', () => {
+  describe('GET /health', () => {
     it('should return OK', async () => {
       const resp = await request(app.callback()).get('/health')
       expect(resp.text).to.eq('OK')
@@ -31,10 +26,12 @@ describe('App', () => {
     })
   })
 
-  describe('/comments', () => {
+  describe('GET /comments', () => {
     it('should return list of builds', async () => {
       const resp = await request(app.callback()).get('/comments')
-      expect(resp.body).to.eql({ count: COMMENTS.length, comments: COMMENTS})
+      expect(resp.body).to.eql({
+        count: sample.COMMENTS.length, comments: sample.COMMENTS
+      })
       expect(resp.status).to.eq(200)
     })
   })
