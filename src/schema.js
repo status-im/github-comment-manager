@@ -7,7 +7,7 @@ const schema = Joi.object().keys({
   platform: Joi.string().max(20).required(),
   duration: Joi.string().max(20).required(),
   url: Joi.string().uri().required(),
-  pkg_url: Joi.string().uri(),
+  pkg_url: Joi.string().uri().allow(null),
 })
 
 module.exports = schema

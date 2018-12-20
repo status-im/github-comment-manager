@@ -36,7 +36,7 @@ const COMMENT = `
 |-|-|-|-|-|-|-|
 | :heavy_check_mark: | COMMIT-1 | [ID-1](URL-1) | 2018-12-20 08:26:33 | DURATION-1 | \`PLATFORM-1\` | [:package: package](PKG_URL-1) |
 | | | | | | | |
-| :x: | COMMIT-2 | [ID-2](URL-2) | 2018-12-20 08:45:28 | DURATION-2 | \`PLATFORM-2\` | [:page_facing_up: build log](PKG_URL-2consoleText) |
+| :x: | COMMIT-2 | [ID-2](URL-2) | 2018-12-20 08:45:28 | DURATION-2 | \`PLATFORM-2\` | [:page_facing_up: build log](URL-2consoleText) |
 `
 
 describe('Comments', () => {
@@ -57,25 +57,38 @@ describe('Comments', () => {
     it('should fail with no builds', async () => {
       builds.getBuilds.returns([])
       try {
-        await comments.renderComment('PR')
+        await comments.renderComment('PR-ID')
       } catch(err) {
         expect(err.message).to.eq('No builds exist for this PR')
       }
     })
 
     it('should render correctly', async () => {
-      let body = await comments.renderComment('PR')
+      let body = await comments.renderComment('PR-ID')
       expect(body).to.eq(COMMENT)
     })
   })
 
   describe('postComment', () => {
     it('should create a new comment', async () => {
-      let id = await comments.postComment('PR')
+      let id = await comments.postComment('PR-ID')
       expect(id).to.eq('ISSUE-ID')
       expect(client.issues.createComment).calledOnceWith({
         body: sinon.match.any,
-        number: 'PR',
+        number: 'PR-ID',
+        owner: 'owner',
+        repo: 'repo',
+      })
+    })
+  })
+
+  describe('updateComment', () => {
+    it('should update existing comment', async () => {
+      let id = await comments.updateComment('PR-ID', 'COMMENT-ID')
+      expect(id).to.eq('ISSUE-ID')
+      expect(client.issues.updateComment).calledOnceWith({
+        body: sinon.match.any,
+        comment_id: 'COMMENT-ID',
         owner: 'owner',
         repo: 'repo',
       })
