@@ -1,3 +1,4 @@
+import log from 'loglevel'
 import Koa from 'koa'
 import JSON from 'koa-json'
 import Logger from 'koa-logger'
@@ -13,7 +14,7 @@ const App = (ghc) => {
     console.error('server error', err, ctx)
   })
 
-  app.use(Logger())
+  app.use(Logger((str, args) => log.info(str)))
      .use(JSON({pretty: true}))
      .use(JsonError())
      .use(router.middleware())
