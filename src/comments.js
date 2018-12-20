@@ -1,3 +1,4 @@
+import log from 'loglevel'
 import Handlebars from 'handlebars'
 import template from './template'
 
@@ -45,7 +46,7 @@ class Comments {
   }
 
   async postComment (pr) {
-    console.log(`Creating comment in PR-${pr}`)
+    log.info(`Creating comment in PR-${pr}`)
     const body = await this.renderComment(pr)
     const rval = await this.gh.issues.createComment({
       owner: this.owner,
@@ -57,7 +58,7 @@ class Comments {
   }
 
   async updateComment (pr, comment_id) {
-    console.log(`Updating comment in PR-${pr}`)
+    log.info(`Updating comment in PR-${pr}`)
     const body = await this.renderComment(pr)
     const rval = await this.gh.issues.updateComment({
       owner: this.owner,
