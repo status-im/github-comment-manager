@@ -29,12 +29,12 @@ describe('Schema', () => {
 
     it('can\'t be a null', () => {
       build.commit = null
-      expect(Joi.validate(build, Schema)).to.be.rejectedWith('"commit" must be a string')
+      expect(Joi.validate(build, Schema)).rejectedWith('"commit" must be a string')
     })
 
     it('can\'t be a number', async () => {
       build.commit = 1
-      expect(Joi.validate(build, Schema)).to.be.rejectedWith('"commit" must be a string')
+      expect(Joi.validate(build, Schema)).rejectedWith('"commit" must be a string')
     })
   })
 
@@ -52,7 +52,7 @@ describe('Schema', () => {
 
     it('can\'t be a number', async () => {
       build.pkg_url = 1
-      expect(Joi.validate(build, Schema)).to.be.rejectedWith('"pkg_url" must be a string')
+      expect(Joi.validate(build, Schema)).rejectedWith('"pkg_url" must be a string')
     })
   })
 })

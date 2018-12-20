@@ -56,11 +56,7 @@ describe('Comments', () => {
   describe('renderComment', () => {
     it('should fail with no builds', async () => {
       builds.getBuilds.returns([])
-      try {
-        await comments.renderComment('PR-ID')
-      } catch(err) {
-        expect(err.message).to.eq('No builds exist for this PR')
-      }
+      expect(comments.renderComment('PR-ID')).rejectedWith('No builds exist for this PR')
     })
 
     it('should render correctly', async () => {
