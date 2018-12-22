@@ -79,17 +79,13 @@ There are few environment variables you can set:
 
 For development use:
 ```
-npm run start
+yarn run start
 ```
 For building use:
 ```
-npm run build
+yarn run default
 ```
-To create the docker image use:
+To create and push the docker image use:
 ```
-npm run image
-```
-To push the image use:
-```
-npm run push
+yarn run release
 ```

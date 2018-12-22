@@ -30,6 +30,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^8.0.0-beta.2",
     "gulp-clean": "^0.4.0",
+    "gulp-exec": "^3.0.2",
     "gulp-mocha": "^6.0.0",
     "gulp-nodemon": "^2.2.1",
     "gulp-print": "^5.0.0",
@@ -48,8 +49,9 @@
     "devel": "gulp devel",
     "clean": "gulp clean",
     "build": "gulp build",
-    "image": "docker build -t statusteam/ghcmgr .",
-    "push": "docker push statusteam/ghcmgr"
+    "image": "gulp image",
+    "push": "gulp push",
+    "release": "release"
   },
   "mocha": [
     "@babel/register"
