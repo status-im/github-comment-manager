@@ -61,6 +61,11 @@ $ curl -s http://localhost:8000/comments
 There are few environment variables you can set:
 
 * `LISTEN_PORT` - Default: `8000`
+* `DB_SAVE_INTERVAL` - Default: `5000`
+* `DB_PATH` - Default: `/tmp/builds.db`
+* `GH_TOKEN` - Required for GitHub API access.
+* `GH_REPO_OWNER` - Name of owner of repo to manage.
+* `GH_REPO_NAME` - Name of GitHub repo to manage.
 
 # Building
 
