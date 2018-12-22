@@ -77,19 +77,7 @@ There are few environment variables you can set:
 
 # Building
 
-For production use:
-```
-yarn run start
-```
-For development use:
-```
-yarn run devel
-```
-For building use:
-```
-yarn run default
-```
-To create and push the docker image use:
-```
-yarn run release
-```
+* `yarn run start` - For production use.
+* `yarn run devel` - For development use.
+* `yarn run default` - For building use.
+* `yarn run release` - To create and push the docker image use.
