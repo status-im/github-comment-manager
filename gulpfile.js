@@ -20,7 +20,19 @@ gulp.task('clean', () =>
 
 gulp.task('test', () =>
   gulp.src('test/**/*.js', {read: false})
-    .pipe(mocha({reporter: 'list', compilers: '@babel/register'}))
+    .pipe(mocha({
+      reporter: 'list',
+      require: '@babel/register',
+    }))
+)
+
+gulp.task('testw', () =>
+  gulp.src('test/**/*.js', {read: false})
+    .pipe(mocha({
+      reporter: 'list',
+      require: '@babel/register',
+      watch: true,
+    }))
 )
 
 gulp.task('build', () =>

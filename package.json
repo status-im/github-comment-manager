@@ -43,7 +43,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "gulp test",
-    "testw": "mocha --require @babel/register --watch",
+    "testw": "gulp testw",
     "cover": "nyc mocha",
     "devel": "gulp devel",
     "clean": "gulp clean",
