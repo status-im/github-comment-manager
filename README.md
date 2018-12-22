@@ -39,10 +39,10 @@ $ cat << EOF
 }
 EOF >> /tmp/body/json
 
-$ curl -s -XPOST https://localhost:8000/builds/7123 -d@/tmp/body.json -H 'Content-Type: application/json'
+$ curl -s -XPOST http://localhost:8000/builds/7123 -d@/tmp/body.json -H 'Content-Type: application/json'
 { "status": "ok" }
 
-$ curl -s -XPOST https://localhost:8000/builds/7123/refresh
+$ curl -s -XPOST http://localhost:8000/builds/7123/refresh
 { "status": "ok" }
 ```
 You can also check all PRs the application knows about:
