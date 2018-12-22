@@ -22,8 +22,8 @@ The problem this solves is posting comments in a PR from multiple builds without
 
 It exposes just 1 call:
 
-* `POST /builds/:id` - Post a comment for PR with given ID.
-* `POST /builds/:id/refresh` - Update the comment for PR with given ID.
+* `POST /builds/:id` - Add a new build result and update the PR comment.
+* `POST /builds/:id/refresh` - Re-render the PR comment for given ID.
 * `POST /comments` - Show currently managed comments in PRs.
 
 By default it listens on `localhost:8080`.
@@ -33,24 +33,17 @@ By default it listens on `localhost:8080`.
 ```
 $ cat << EOF
 {
-  "id": 1,
-  "commit": "7367f3d5",
-  "success": true,
-  "platform": "linux",
-  "duration": "~15 min",
+  "id": 1, "commit": "7367f3d5", "success": true, "platform": "linux", "duration": "~15 min",
   "url": "https://ci.status.im/job/status-react/job/prs/job/linux/job/PR-7123/1/",
   "pkg_url": "https://status-im-prs.ams3.digitaloceanspaces.com/StatusIm-181212-211210-5157d2-pr.AppImage"
 }
 EOF >> /tmp/body/json
 
 $ curl -s -XPOST https://localhost:8000/builds/7123 -d@/tmp/body.json -H 'Content-Type: application/json'
-{
-  "status": "ok"
-}                                                                                                                                                                                     sochan@lilim: infra-misc% curl https://clicks.status.im/click                                                                                                    [10/17/18 11:22:50]
+{ "status": "ok" }
+
 $ curl -s -XPOST https://localhost:8000/builds/7123/refresh
-{
-  "status": "ok"
-}                                                                                                                                                                                     sochan@lilim: infra-misc% curl https://clicks.status.im/click                                                                                                    [10/17/18 11:22:50]
+{ "status": "ok" }
 ```
 You can also check all PRs the application knows about:
 ```
@@ -58,14 +51,8 @@ $ curl -s http://localhost:8000/comments
 {
   "count": 2,
   "comments": [
-    {
-      "pr": "7000",
-      "comment_id": 446940840
-    },
-    {
-      "pr": "7084",
-      "comment_id": 446779864
-    }
+    { "pr": "7000", "comment_id": 446940840 },
+    { "pr": "7084", "comment_id": 446779864 }
   ]
 }
 ```
