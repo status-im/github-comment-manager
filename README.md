@@ -77,9 +77,13 @@ There are few environment variables you can set:
 
 # Building
 
-For development use:
+For production use:
 ```
 yarn run start
+```
+For development use:
+```
+yarn run devel
 ```
 For building use:
 ```
