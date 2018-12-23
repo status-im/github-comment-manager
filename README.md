@@ -10,7 +10,6 @@ The problem this solves is posting comments in a PR from multiple builds without
 ### Jenkins Builds
 | :grey_question: | Commit | :hash: | Finished (UTC) | Duration | Platform | Result |
 |-|-|-|-|-|-|-|
-| | | | | | | |
 | :x: | a088572b | [#3](https://google.pl) | 2018-12-21 12:12:55 | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
 | :x: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:18 | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
 | :heavy_check_mark: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:53 | ~12 min | `ios` | [:package: package](https://google.pl) |
