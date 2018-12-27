@@ -27,11 +27,7 @@ gulp.task('testw', () =>
     .pipe(mocha({reporter: 'list', watch: true}))
 )
 
-gulp.task('build', ['clean', 'test'], () =>
-  gulp.src('src/**/*.js')
-    .pipe(print())
-    .pipe(gulp.dest('dist/'))
-)
+gulp.task('build', ['clean', 'test'])
 
 gulp.task('image', ['build'], run('docker build -t statusteam/ghcmgr .'))
 

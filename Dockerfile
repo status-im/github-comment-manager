@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json ./
 RUN yarn install --production
 
-COPY dist/ ./
+COPY src/ ./
 
 ENV LOG_LEVEL=INFO \
     LISTEN_PORT=8000 \
