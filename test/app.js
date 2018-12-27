@@ -1,11 +1,11 @@
-import { expect } from 'chai'
-import sinon from 'sinon'
-import request from 'supertest'
+const expect = require('chai').expect
+const sinon = require('sinon')
+const request = require('supertest')
 
-import sample from './sample'
-import App from '../src/app'
-import Builds from '../src/builds'
-import Comments from '../src/comments'
+const sample = require('./sample')
+const App = require('../src/app')
+const Builds = require('../src/builds')
+const Comments = require('../src/comments')
 
 let ghc, app
 

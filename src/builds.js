@@ -1,7 +1,7 @@
-import log from 'loglevel'
-import Joi from 'joi'
-import Loki from 'lokijs'
-import schema from './schema'
+const log = require('loglevel')
+const Joi = require('joi')
+const Loki = require('lokijs')
+const schema = require('./schema')
 
 class Builds {
   constructor(path, interval) {

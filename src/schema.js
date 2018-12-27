@@ -1,4 +1,4 @@
-import Joi from 'joi'
+const Joi = require('joi')
  
 const schema = Joi.object().keys({
   id: Joi.alternatives().try(Joi.number().positive(), Joi.string()).required(),

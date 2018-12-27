@@ -1,10 +1,10 @@
-import log from 'loglevel'
-import Logger from 'koa-logger'
-import Octokit from '@octokit/rest'
+const log = require('loglevel')
+const Logger = require('koa-logger')
+const Octokit = require('@octokit/rest')
 
-import App from './app'
-import Builds from './builds'
-import Comments from './comments'
+const App = require('./app')
+const Builds = require('./builds')
+const Comments = require('./comments')
 
 /* DEFAULTS */
 const LOG_LEVEL        = process.env.LOG_LEVEL        || 'INFO'

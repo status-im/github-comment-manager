@@ -1,9 +1,9 @@
-import { expect } from 'chai'
-import sinon from 'sinon'
+const expect = require('chai').expect
+const sinon = require('sinon')
 
-import sample from './sample'
-import Builds from '../src/builds'
-import Comments from '../src/comments'
+const sample = require('./sample')
+const Builds = require('../src/builds')
+const Comments = require('../src/comments')
 
 let comments, client, builds
 

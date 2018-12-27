@@ -1,6 +1,6 @@
-import log from 'loglevel'
-import Handlebars from 'handlebars'
-import template from './template'
+const log = require('loglevel')
+const Handlebars = require('handlebars')
+const template = require('./template')
 
 /* in theory the jenkins build comment should be the first one */
 const PER_PAGE = 100
