@@ -13,10 +13,6 @@ gulp.task('devel', () => {
     .on('restart', () => { console.log('>> node restart') })
 })
 
-gulp.task('clean', () =>
-  gulp.src('dist/*').pipe(clean())
-)
-
 gulp.task('test', () =>
   gulp.src('test/**/*.js', {read: false})
     .pipe(mocha({reporter: 'list'}))
@@ -27,7 +23,7 @@ gulp.task('testw', () =>
     .pipe(mocha({reporter: 'list', watch: true}))
 )
 
-gulp.task('build', ['clean', 'test'])
+gulp.task('build', ['test'])
 
 gulp.task('image', ['build'], run('docker build -t statusteam/ghcmgr .'))
 
