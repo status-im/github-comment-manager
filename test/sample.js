@@ -30,6 +30,26 @@ const BUILDS = [
     pkg_url: 'PKG_URL-2',
     meta: { created: 1545295528896 },
   },
+  {
+    id: 'ID-3',
+    commit: 'COMMIT-3',
+    success: true,
+    platform: 'PLATFORM-3',
+    duration: 'DURATION-3',
+    url: 'URL-3',
+    pkg_url: 'PKG_URL-3',
+    meta: { created: 1545294392930 },
+  },
+  {
+    id: 'ID-4',
+    commit: 'COMMIT-4',
+    success: false,
+    platform: 'PLATFORM-4',
+    duration: 'DURATION-4',
+    url: 'URL-4',
+    pkg_url: 'PKG_URL-4',
+    meta: { created: 1545295523333 },
+  },
 ]
 
 const COMMENTS = [
