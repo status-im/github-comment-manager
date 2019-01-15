@@ -34,7 +34,8 @@ class Comments {
     /* add helper for checking change in commit */
     Handlebars.registerHelper('commitChanged', commitHelper)
     /* setup templating for comments */
-    this.template = Handlebars.compile(template);
+    Handlebars.registerPartial('build', template.build)
+    this.template = Handlebars.compile(template.main);
   }
 
   async renderComment (pr) {
