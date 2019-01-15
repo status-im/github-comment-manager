@@ -37,11 +37,33 @@ class Builds {
     })
   }
 
+  /* This sorts so that builds are shown grouped by commit,
+   * but still in chronological order based on $loki. */
+  sortBuildsByCommit (builds) {
+    let bc = {}, b
+    /* put builds under commit keys */
+    for (let i=0; i<builds.length; i++) {
+      b = builds[i]
+      bc[b.commit] || (bc[b.commit] = [])
+      bc[b.commit].push(b)
+    }
+    bc = Object.values(bc)
+    bc.sort((o1, o2) => {
+      let o1_min = Math.min(o1.map((o) => o.$loki))
+      let o2_min = Math.min(o2.map((o) => o.$loki))
+      return o1_min - o2_min 
+    })
+    /* flatten */
+    return [].concat.apply([], bc)
+  }
+
   async getBuilds (pr) {
-    const builds = await this.builds.chain()
+    let builds = await this.builds.chain()
       .find({pr})
-      .compoundsort(['$loki', 'id'])
+      .compoundsort(['id', '$loki'])
       .data()
+    /* sort groups of builds for commit based on $loki */
+    builds = this.sortBuildsByCommit(builds)
     /* strip the $loki attribute */
     return builds.map((b) => {
       const {$loki, ...build} = b

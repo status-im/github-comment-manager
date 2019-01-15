@@ -15,12 +15,12 @@ gulp.task('devel', () => {
 
 gulp.task('test', () =>
   gulp.src('test/**/*.js', {read: false})
-    .pipe(mocha({reporter: 'list'}))
+    .pipe(mocha({sort: true, reporter: 'list'}))
 )
 
 gulp.task('testw', () =>
   gulp.src('test/**/*.js', {read: false})
-    .pipe(mocha({reporter: 'list', watch: true}))
+    .pipe(mocha({sort: true, reporter: 'list', watch: true}))
 )
 
 gulp.task('build', ['test'])
