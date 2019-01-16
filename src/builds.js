@@ -40,14 +40,19 @@ class Builds {
   /* This sorts so that builds are shown grouped by commit,
    * but still in chronological order based on $loki. */
   sortBuildsByCommit (builds) {
-    let bc = {}, b
+    let map = {}
+    let bc = [], b
     /* put builds under commit keys */
     for (let i=0; i<builds.length; i++) {
       b = builds[i]
-      bc[b.commit] || (bc[b.commit] = [])
-      bc[b.commit].push(b)
+      if (map[b.commit] !== undefined) {
+        bc[map[b.commit]].push(b)
+      } else {
+        bc.push([b])
+        map[b.commit] = bc.length-1
+      }
     }
-    bc = Object.values(bc)
+    /* compare commits by their lowest $loki index */
     bc.sort((o1, o2) => {
       let o1_min = Math.min(o1.map((o) => o.$loki))
       let o2_min = Math.min(o2.map((o) => o.$loki))
