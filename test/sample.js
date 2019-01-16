@@ -9,48 +9,18 @@ const BUILD = {
   pkg_url: 'https://example.com/some/pkg/path',
 }
 
-const BUILDS = [
-  {
-    id: 'ID-1',
-    commit: 'COMMIT-1',
-    success: true,
-    platform: 'PLATFORM-1',
-    duration: 'DURATION-1',
-    url: 'URL-1',
-    pkg_url: 'PKG_URL-1',
-    meta: { created: 1545294393058 },
-  },
-  {
-    id: 'ID-2',
-    commit: 'COMMIT-2',
-    success: false,
-    platform: 'PLATFORM-2',
-    duration: 'DURATION-2',
-    url: 'URL-2',
-    pkg_url: 'PKG_URL-2',
-    meta: { created: 1545295528896 },
-  },
-  {
-    id: 'ID-3',
-    commit: 'COMMIT-3',
-    success: true,
-    platform: 'PLATFORM-3',
-    duration: 'DURATION-3',
-    url: 'URL-3',
-    pkg_url: 'PKG_URL-3',
-    meta: { created: 1545294392930 },
-  },
-  {
-    id: 'ID-4',
-    commit: 'COMMIT-4',
-    success: false,
-    platform: 'PLATFORM-4',
-    duration: 'DURATION-4',
-    url: 'URL-4',
-    pkg_url: 'PKG_URL-4',
-    meta: { created: 1545295523333 },
-  },
-]
+const getBuild = (idx) => ({
+  id: `ID-${idx}`,
+  commit: `COMMIT-${Math.floor(idx/4)}`,
+  success: (idx%3) ? true : false,
+  platform: `PLATFORM-${idx}`,
+  duration: `DURATION-${idx}`,
+  url: `URL-${idx}`,
+  pkg_url: `PKG_URL-${idx}`,
+  meta: { created: 1545294300000+(idx*56789) },
+})
+
+const BUILDS = Array.apply(null, Array(12)).map((v,i)=>getBuild(i+1))
 
 const COMMENTS = [
   { pr: 'PR-1', comment_id: 1234 },
