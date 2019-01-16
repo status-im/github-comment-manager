@@ -20,7 +20,7 @@ const COMMENT = `
 const COMMENT_FOLDED = `
 ### Jenkins Builds
 <details>
-<summary>Click to see older builds</summary>
+<summary>Click to see older builds (2)</summary>
 
 | :grey_question: | Commit | :hash: | Finished (UTC) | Duration | Platform | Result |
 |-|-|-|-|-|-|-|

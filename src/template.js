@@ -2,7 +2,7 @@ const main = `
 ### Jenkins Builds
 {{#if archived.length }}
 <details>
-<summary>Click to see older builds</summary>
+<summary>Click to see older builds ({{ archived.length }})</summary>
 
 {{> buildsTable archived }}
 </details>
