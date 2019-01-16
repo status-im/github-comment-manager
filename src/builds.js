@@ -42,7 +42,8 @@ class Builds {
   sortBuildsByCommit (builds) {
     let map = {}
     let bc = [], b
-    /* put builds under commit keys */
+    /* Put builds under commit keys to keep them together.
+     * Keep the order of which commit appears first */
     for (let i=0; i<builds.length; i++) {
       b = builds[i]
       if (map[b.commit] !== undefined) {
@@ -52,12 +53,6 @@ class Builds {
         map[b.commit] = bc.length-1
       }
     }
-    /* compare commits by their lowest $loki index */
-    bc.sort((o1, o2) => {
-      let o1_min = Math.min(o1.map((o) => o.$loki))
-      let o2_min = Math.min(o2.map((o) => o.$loki))
-      return o1_min - o2_min 
-    })
     /* flatten */
     return [].concat.apply([], bc)
   }
