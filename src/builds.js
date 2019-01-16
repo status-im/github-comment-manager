@@ -65,7 +65,7 @@ class Builds {
   async getBuilds (pr) {
     let builds = await this.builds.chain()
       .find({pr})
-      .compoundsort(['id', '$loki'])
+      .compoundsort(['$loki'])
       .data()
     /* sort groups of builds for commit based on $loki */
     builds = this.sortBuildsByCommit(builds)

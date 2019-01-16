@@ -53,11 +53,11 @@ describe('Builds', () => {
       expect(rval).to.deep.equal([
         { id: '#1', commit: 'abcd1234', platform: 'macos' },
         { id: '#1', commit: 'abcd1234', platform: 'linux' },
-        { id: '#1', commit: 'abcd1234', platform: 'windows' },
         { id: '#2', commit: 'abcd1234', platform: 'linux' },
+        { id: '#1', commit: 'abcd1234', platform: 'windows' },
         { id: '#2', commit: '1234abcd', platform: 'macos' },
+        { id: '#3', commit: '1234abcd', platform: 'linux' },
         { id: '#2', commit: '1234abcd', platform: 'windows' },
-        { id: '#3', commit: '1234abcd', platform: 'linux' }
       ])
     })
   })
