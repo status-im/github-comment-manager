@@ -1,5 +1,5 @@
 {
-  "name": "click-counter",
+  "name": "github-comment-manager",
   "version": "0.0.1",
   "description": "Minimal API for managing GitHub comments for CIclicks.",
   "repository": "https://github.com/status-im/github-comment-manager",
