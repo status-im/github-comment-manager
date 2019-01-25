@@ -14,7 +14,7 @@ const getBuild = (idx) => ({
   commit: `COMMIT-${Math.floor(idx/4)}`,
   success: (idx%3) ? true : false,
   platform: `PLATFORM-${idx}`,
-  duration: `DURATION-${idx}`,
+  duration: `DURATION-${idx} 12 sec`,
   url: `URL-${idx}`,
   pkg_url: `PKG_URL-${idx}`,
   meta: { created: 1545294300000+(idx*56789) },
