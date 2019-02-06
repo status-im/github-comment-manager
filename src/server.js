@@ -12,7 +12,7 @@ const LOG_LEVEL        = process.env.LOG_LEVEL        || 'INFO'
 const LISTEN_PORT      = process.env.LISTEN_PORT      || 8000
 const GH_TOKEN         = process.env.GH_TOKEN         || null
 const GH_REPO_OWNER    = process.env.GH_REPO_OWNER    || 'status-im'
-const GH_REPO_NAMES    = process.env.GH_REPO_NAMES    || []
+const GH_REPO_NAMES    = process.env.GH_REPO_NAMES    || ''
 const DB_PATH          = process.env.DB_PATH          || '/tmp/builds.db'
 const DB_SAVE_INTERVAL = process.env.DB_SAVE_INTERVAL || 5000
 
@@ -28,7 +28,7 @@ const gh = new Octokit({auth: `token ${GH_TOKEN}`})
 const ghc = new Comments({
   client: gh,
   owner: GH_REPO_OWNER,
-  repos: GH_REPO_NAMES,
+  repos: GH_REPO_NAMES.split(','),
   builds: builds,
 })
 const app = App({ghc, schema})
