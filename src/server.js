@@ -5,7 +5,7 @@ const Octokit = require('@octokit/rest')
 const App = require('./app')
 const Builds = require('./builds')
 const Comments = require('./comments')
-const Schema = require('./schema')
+const schema = require('./schema')
 
 /* DEFAULTS */
 const LOG_LEVEL        = process.env.LOG_LEVEL        || 'INFO'
@@ -25,12 +25,10 @@ const builds = new Builds(DB_PATH, DB_SAVE_INTERVAL)
 /* necessary to post and update comments */
 const gh = new Octokit({auth: `token ${GH_TOKEN}`})
 
-/* set valid repo names */
-const schema = Schema(GH_REPO_NAMES)
-
 const ghc = new Comments({
   client: gh,
   owner: GH_REPO_OWNER,
+  repos: GH_REPO_NAMES,
   builds: builds,
 })
 const app = App({ghc, schema})

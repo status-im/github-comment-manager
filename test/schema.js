@@ -3,15 +3,14 @@ const sinon = require('sinon')
 const Joi = require('joi')
 
 const sample = require('./sample')
-const Schema = require('../src/schema')
+const schema = require('../src/schema')
 
-let build, schema
+let build
 
 describe('Schema', () => {
   beforeEach(() => {
     /* refresh for every test */
     build = Object.assign({}, sample.BUILD)
-    schema = Schema(['REPO-1'])
   })
   
   describe('id', () => {
@@ -46,23 +45,6 @@ describe('Schema', () => {
     it('can\'t be a number', () => {
       build.commit = 1
       expect(Joi.validate(build, schema)).rejectedWith('"commit" must be a string')
-    })
-  })
-
-  describe('repo', () => {
-    it('has to be a repo', async () => {
-      let rval = await Joi.validate(build, schema)
-      expect(rval).to.eql(build)
-    })
-
-    it('can\'t be a null', () => {
-      build.repo = null
-      expect(Joi.validate(build, schema)).rejectedWith('"repo" must be a string')
-    })
-
-    it('has to be on whitelist', () => {
-      build.repo = 'REPO-WRONG'
-      expect(Joi.validate(build, schema)).rejectedWith('"repo" must be one of [REPO-1]')
     })
   })
 

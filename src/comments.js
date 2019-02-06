@@ -46,9 +46,10 @@ const extractArchiveBuilds = (builds) => {
 }
 
 class Comments {
-  constructor({client, owner, builds}) {
+  constructor({client, owner, repos, builds}) {
     this.gh = client
     this.db = builds
+    this.repos = repos /* whitelist of repos to which we post */
     this.owner = owner /* name of user who makes the comments */
     /* add helper for formatting dates */
     Handlebars.registerHelper('date', dateHelper)
@@ -101,6 +102,10 @@ class Comments {
   }
 
   async update ({repo, pr}) {
+    /* check if repo is in a whitelist */
+    if (!this.repos.includes(repo)) {
+      throw Error(`Repo not whitelisted: ${repo}`)
+    }
     /* check if comment was already posted */
     let comment_id = await this.db.getCommentID({repo, pr})
     if (comment_id) {
