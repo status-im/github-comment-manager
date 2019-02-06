@@ -14,19 +14,15 @@ const commitHelper = (data, index, options) => {
 }
 
 /* turns epoch time to human readable format */
-const dateHelper = (data) => {
-  return new Handlebars.SafeString(
-    (new Date(data))
-      .toISOString('utc')
-      .slice(0, 19)
-      .replace('T', ' ')
-  )
-}
+const dateHelper = (data) => new Handlebars.SafeString(
+  (new Date(data)).toISOString('utc').slice(0, 19).replace('T', ' ')
+)
+
+/* extracts file extension from url */
+const fileExt = (data) => new Handlebars.SafeString(data.split('.').pop())
 
 /* remove seconds from duration to make columns equal width */
-const shortenDuration = (data) => {
-  return data.replace(/ [0-9]+ sec$/, '')
-}
+const shortenDuration = (data) => (data.replace(/ [0-9]+ sec$/, ''))
 
 /* adds archive attribute to builds to mark for folding in template */
 const extractArchiveBuilds = (builds) => {
@@ -51,6 +47,8 @@ class Comments {
     this.owner = owner /* name of user who makes the comments */
     /* add helper for formatting dates */
     Handlebars.registerHelper('date', dateHelper)
+    /* add helper extracting file extension */
+    Handlebars.registerHelper('fileExt', fileExt)
     /* add helper for shortening duration field */
     Handlebars.registerHelper('shortenDuration', shortenDuration)
     /* add helper for checking change in commit */

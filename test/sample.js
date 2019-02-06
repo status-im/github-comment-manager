@@ -6,7 +6,7 @@ const BUILD = {
   platform: 'PLATFORM-1',
   duration: 'DURATION-1',
   url: 'https://example.com/some/url/path',
-  pkg_url: 'https://example.com/some/pkg/path',
+  pkg_url: 'https://example.com/some/pkg/path.ext',
 }
 
 const getBuild = (idx) => ({
@@ -16,7 +16,7 @@ const getBuild = (idx) => ({
   platform: `PLATFORM-${idx}`,
   duration: `DURATION-${idx} 12 sec`,
   url: `URL-${idx}`,
-  pkg_url: `PKG_URL-${idx}`,
+  pkg_url: `PKG_URL-${idx}.ext${idx}`,
   meta: { created: 1545294300000+(idx*56789) },
 })
 
