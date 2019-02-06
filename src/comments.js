@@ -19,7 +19,13 @@ const dateHelper = (data) => new Handlebars.SafeString(
 )
 
 /* extracts file extension from url */
-const fileExt = (data) => new Handlebars.SafeString(data.split('.').pop())
+const fileExt = (data) => {
+  let ext = data.split('.').pop()
+  if (ext.includes('/')) {
+    ext = ext.split('/').pop()
+  }
+  return new Handlebars.SafeString(ext)
+}
 
 /* remove seconds from duration to make columns equal width */
 const shortenDuration = (data) => (data.replace(/ [0-9]+ sec$/, ''))
