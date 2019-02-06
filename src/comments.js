@@ -89,7 +89,7 @@ class Comments {
   }
 
   async updateComment ({repo, pr, comment_id}) {
-    log.info(`Updating comment in PR-${pr}`)
+    log.info(`Updating comment #${comment_id} in PR-${pr}`)
     const body = await this.renderComment({repo, pr})
     const rval = await this.gh.issues.updateComment({
       owner: this.owner,
