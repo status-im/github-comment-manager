@@ -15,7 +15,7 @@ describe('App', () => {
     ghc.db = sinon.createStubInstance(Builds, {
       getComments: sample.COMMENTS,
     }),
-    app = App(ghc)
+    app = App({ghc})
   })
 
   describe('GET /health', () => {
@@ -38,28 +38,36 @@ describe('App', () => {
     })
   })
 
-  describe('POST /builds/:pr', () => {
+  describe('POST /builds/:repo/:pr', () => {
     it('should store the POSTed build', async () => {
       const resp = await request(app.callback())
-        .post('/builds/PR-1')
+        .post('/builds/REPO-1/PR-1')
         .send(sample.BUILD)
       expect(resp.body).to.eql({status:'ok'})
       expect(resp.status).to.eq(201)
-      expect(ghc.db.addBuild).calledOnceWith('PR-1', sample.BUILD)
-      expect(ghc.update).calledOnceWith('PR-1')
+      expect(ghc.db.addBuild).calledOnceWith({
+        repo: 'REPO-1', pr: 'PR-1', build: sample.BUILD,
+      })
+      expect(ghc.update).calledOnceWith({
+        repo: 'REPO-1', pr: 'PR-1'
+      })
     })
   })
 
 
-  describe('POST /builds/:pr/refresh', () => {
+  describe('POST /builds/:repo/:pr/refresh', () => {
     it('should update github comment', async () => {
       const resp = await request(app.callback())
-        .post('/builds/PR-1/refresh')
+        .post('/builds/REPO-1/PR-1/refresh')
         .send(sample.BUILD)
       expect(resp.body).to.eql({status:'ok'})
       expect(resp.status).to.eq(201)
-      expect(ghc.db.addBuild).not.calledOnceWith('PR-1', sample.BUILD)
-      expect(ghc.update).calledOnceWith('PR-1')
+      expect(ghc.db.addBuild).not.calledOnceWith({
+        repo: 'REPO-1', pr: 'PR-1', build: sample.BUILD
+      })
+      expect(ghc.update).calledOnceWith({
+        repo: 'REPO-1', pr: 'PR-1',
+      })
     })
   })
 })

@@ -46,10 +46,9 @@ const extractArchiveBuilds = (builds) => {
 }
 
 class Comments {
-  constructor(client, owner, repo, builds) {
+  constructor({client, owner, builds}) {
     this.gh = client
     this.db = builds
-    this.repo = repo   /* name of repo to query */
     this.owner = owner /* name of user who makes the comments */
     /* add helper for formatting dates */
     Handlebars.registerHelper('date', dateHelper)
@@ -67,8 +66,8 @@ class Comments {
     this.template = Handlebars.compile(template.main);
   }
 
-  async renderComment (pr) {
-    const builds = await this.db.getBuilds(pr)
+  async renderComment ({repo, pr}) {
+    const builds = await this.db.getBuilds({repo, pr})
     if (builds.length == 0) {
       throw Error('No builds exist for this PR')
     }
@@ -77,38 +76,38 @@ class Comments {
     return this.template({visible, archived})
   }
 
-  async postComment (pr) {
+  async postComment ({repo, pr}) {
     log.info(`Creating comment in PR-${pr}`)
-    const body = await this.renderComment(pr)
+    const body = await this.renderComment({repo, pr})
     const rval = await this.gh.issues.createComment({
       owner: this.owner,
-      repo: this.repo,
+      repo: repo,
       number: pr,
       body,
     })
     return rval.data.id
   }
 
-  async updateComment (pr, comment_id) {
+  async updateComment ({repo, pr, comment_id}) {
     log.info(`Updating comment in PR-${pr}`)
-    const body = await this.renderComment(pr)
+    const body = await this.renderComment({repo, pr})
     const rval = await this.gh.issues.updateComment({
       owner: this.owner,
-      repo: this.repo,
+      repo: repo,
       comment_id,
       body,
     })
     return rval.data.id
   }
 
-  async update (pr) {
+  async update ({repo, pr}) {
     /* check if comment was already posted */
-    let id = await this.db.getCommentID(pr)
-    if (id) {
-      await this.updateComment(pr, id)
+    let comment_id = await this.db.getCommentID(repo, pr)
+    if (comment_id) {
+      await this.updateComment({repo, pr, comment_id})
     } else {
-      id = await this.postComment(pr)
-      await this.db.addComment(pr, id)
+      comment_id = await this.postComment({repo, pr})
+      await this.db.addComment({repo, pr, comment_id})
     }
   }
 }

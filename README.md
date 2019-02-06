@@ -64,7 +64,7 @@ There are few environment variables you can set:
 * `DB_PATH` - Path where the [LokiJS](http://lokijs.org/#/) DB file is stored. (Default: `/tmp/builds.db`)
 * `GH_TOKEN` - Required for GitHub API access.
 * `GH_REPO_OWNER` - Name of owner of repo to manage.
-* `GH_REPO_NAME` - Name of GitHub repo to manage.
+* `GH_REPO_NAMES` - Whitelist of names of GitHub repos to manage. (Empty means all)
 
 # Building
 

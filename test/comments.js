@@ -54,7 +54,12 @@ describe('Comments', () => {
     builds = sinon.createStubInstance(Builds, {
       getBuilds: sample.BUILDS.slice(0, 2),
     })
-    comments = new Comments(client, 'owner', 'repo', builds)
+    comments = new Comments({
+      client: client,
+      owner: 'owner',
+      repos: ['repo'],
+      builds: builds
+    })
   })
   
   describe('renderComment', () => {
@@ -77,26 +82,30 @@ describe('Comments', () => {
 
   describe('postComment', () => {
     it('should create a new comment', async () => {
-      let id = await comments.postComment('PR-ID')
+      let id = await comments.postComment({
+        repo: 'REPO-1', pr: 'PR-ID',
+      })
       expect(id).to.eq('ISSUE-ID')
       expect(client.issues.createComment).calledOnceWith({
         body: sinon.match.any,
-        number: 'PR-ID',
         owner: 'owner',
-        repo: 'repo',
+        number: 'PR-ID',
+        repo: 'REPO-1',
       })
     })
   })
 
   describe('updateComment', () => {
     it('should update existing comment', async () => {
-      let id = await comments.updateComment('PR-ID', 'COMMENT-ID')
+      let id = await comments.updateComment({
+        repo: 'REPO-1', pr: 'PR-ID', comment_id: 'COMMENT-ID',
+      })
       expect(id).to.eq('ISSUE-ID')
       expect(client.issues.updateComment).calledOnceWith({
         body: sinon.match.any,
-        comment_id: 'COMMENT-ID',
         owner: 'owner',
-        repo: 'repo',
+        comment_id: 'COMMENT-ID',
+        repo: 'REPO-1',
       })
     })
   })

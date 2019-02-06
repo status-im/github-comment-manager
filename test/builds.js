@@ -36,7 +36,7 @@ describe('Builds', () => {
       /* need to add the builds before they can be sorted */
       for (let i=0; i<BUILDS.length; i++) {
         let b = BUILDS[i]
-        await builds.addBuild('PR-1', b)
+        await builds.addBuild({repo: 'REPO-1', pr: 'PR-1', build: b})
         /* verify the build was added */
         let rval = await builds.builds.findOne({id: b.id, platform: b.platform})
         expect(rval.commit).to.equal(BUILDS[i].commit)
@@ -44,10 +44,10 @@ describe('Builds', () => {
     })
 
     it('should sort by commits and ids', async () => {
-      let rval = await builds.getBuilds('PR-1')
+      let rval = await builds.getBuilds('REPO-1', 'PR-1')
       /* remove fields we don't care about for easier comparison */
       rval = rval.map((b) => {
-        const { pr, success, duration, url, pkg_url, meta, ...build } = b
+        const { pr, repo, success, duration, url, pkg_url, meta, ...build } = b
         return build
       })
       expect(rval).to.deep.equal([

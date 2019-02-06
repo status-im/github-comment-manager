@@ -5,64 +5,82 @@ const Joi = require('joi')
 const sample = require('./sample')
 const Schema = require('../src/schema')
 
-let build
+let build, schema
 
 describe('Schema', () => {
   beforeEach(() => {
     /* refresh for every test */
     build = Object.assign({}, sample.BUILD)
+    schema = Schema(['REPO-1'])
   })
   
   describe('id', () => {
     it('can be a string', async () => {
-      let rval = await Joi.validate(build, Schema)
+      let rval = await Joi.validate(build, schema)
       expect(rval).to.eql(build)
     })
 
     it('can be a number', async () => {
       build.id = 123
-      let rval = await Joi.validate(build, Schema)
+      let rval = await Joi.validate(build, schema)
       expect(rval).to.eql(build)
     })
 
     it('can\'t be null', () => {
       build.id = null
-      expect(Joi.validate(build, Schema)).rejectedWith('"id" must be a number, "id" must be a string')
+      expect(Joi.validate(build, schema)).rejectedWith('"id" must be a number, "id" must be a string')
     })
   })
 
   describe('commit', () => {
     it('has to be a commit', async () => {
-      let rval = await Joi.validate(build, Schema)
+      let rval = await Joi.validate(build, schema)
       expect(rval).to.eql(build)
     })
 
     it('can\'t be a null', () => {
       build.commit = null
-      expect(Joi.validate(build, Schema)).rejectedWith('"commit" must be a string')
+      expect(Joi.validate(build, schema)).rejectedWith('"commit" must be a string')
     })
 
     it('can\'t be a number', () => {
       build.commit = 1
-      expect(Joi.validate(build, Schema)).rejectedWith('"commit" must be a string')
+      expect(Joi.validate(build, schema)).rejectedWith('"commit" must be a string')
+    })
+  })
+
+  describe('repo', () => {
+    it('has to be a repo', async () => {
+      let rval = await Joi.validate(build, schema)
+      expect(rval).to.eql(build)
+    })
+
+    it('can\'t be a null', () => {
+      build.repo = null
+      expect(Joi.validate(build, schema)).rejectedWith('"repo" must be a string')
+    })
+
+    it('has to be on whitelist', () => {
+      build.repo = 'REPO-WRONG'
+      expect(Joi.validate(build, schema)).rejectedWith('"repo" must be one of [REPO-1]')
     })
   })
 
   describe('pkg_url', () => {
     it('has to be a URL', async () => {
-      let rval = await Joi.validate(build, Schema)
+      let rval = await Joi.validate(build, schema)
       expect(rval).to.eql(build)
     })
 
     it('can be a null', async () => {
       build.pkg_url = null
-      let rval = await Joi.validate(build, Schema)
+      let rval = await Joi.validate(build, schema)
       expect(rval).to.eql(build)
     })
 
     it('can\'t be a number', () => {
       build.pkg_url = 1
-      expect(Joi.validate(build, Schema)).rejectedWith('"pkg_url" must be a string')
+      expect(Joi.validate(build, schema)).rejectedWith('"pkg_url" must be a string')
     })
   })
 })

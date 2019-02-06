@@ -2,6 +2,7 @@
 const BUILD = {
   id: 'ID-1',
   commit: 'abcd1234',
+  repo: 'REPO-1',
   success: true,
   platform: 'PLATFORM-1',
   duration: 'DURATION-1',
@@ -12,6 +13,7 @@ const BUILD = {
 const getBuild = (idx) => ({
   id: `ID-${idx}`,
   commit: `COMMIT-${Math.floor(idx/4)}`,
+  repo: `REPO-${Math.floor(idx/8)}`,
   success: (idx%3) ? true : false,
   platform: `PLATFORM-${idx}`,
   duration: `DURATION-${idx} 12 sec`,

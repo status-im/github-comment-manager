@@ -2,11 +2,9 @@ const log = require('loglevel')
 const Joi = require('joi')
 const Loki = require('lokijs')
 const AwaitLock = require('await-lock')
-const schema = require('./schema')
 
 class Builds {
   constructor(path, interval) {
-    this.schema = schema
     this.lock = new AwaitLock()
     this.db = new Loki(path, {
       autoload: true,
@@ -27,10 +25,6 @@ class Builds {
     }
     /* just to make sure we save on close */
     this.db.on('close', () => this.save())
-  }
-
-  validate (build) {
-    return Joi.validate(build, this.schema)
   }
 
   async save () {
@@ -59,9 +53,9 @@ class Builds {
     return [].concat.apply([], bc)
   }
 
-  async getBuilds (pr) {
+  async getBuilds (query) {
     let builds = await this.builds.chain()
-      .find({pr})
+      .find(query)
       .compoundsort(['$loki'])
       .data()
     /* sort groups of builds for commit based on $loki */
@@ -73,33 +67,33 @@ class Builds {
     })
   }
 
-  async addBuild (pr, build) {
+  async addBuild ({repo, pr, build}) {
     log.info(`Storing build for PR-${pr}: #${build.id} for ${build.platform}`)
     return await this.builds.insert({pr, ...build})
   }
 
-  async addComment (pr, comment_id) {
+  async addComment ({repo, pr, comment_id}) {
     await this.lock.acquireAsync()
     try {
       log.info(`Storing comment for PR-${pr}: ${comment_id}`)
-      return await this.comments.insert({pr, comment_id})
+      return await this.comments.insert({repo, pr, comment_id})
     } finally {
       this.lock.release()
     }
   }
 
-  async getCommentID (pr) {
+  async getCommentID (repo, pr) {
     await this.lock.acquireAsync()
     try {
-      const rval = await this.comments.findOne({pr: pr})
+      const rval = await this.comments.findOne({repo, pr})
       return rval ? rval.comment_id : null
     } finally {
       this.lock.release()
     }
   }
 
-  async getComments (pr) {
-    const comments = await this.comments.chain().simplesort('pr').data();
+  async getComments () {
+    const comments = await this.comments.chain().simplesort('pr').data()
     /* strip the loki attributes */
     return comments.map((c) => {
       const {$loki, meta, ...comment} = c
