@@ -69,7 +69,7 @@ class Builds {
 
   async addBuild ({repo, pr, build}) {
     log.info(`Storing build for PR-${pr}: #${build.id} for ${build.platform}`)
-    return await this.builds.insert({pr, ...build})
+    return await this.builds.insert({repo, pr, ...build})
   }
 
   async addComment ({repo, pr, comment_id}) {
