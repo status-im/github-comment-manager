@@ -102,7 +102,7 @@ class Comments {
 
   async update ({repo, pr}) {
     /* check if comment was already posted */
-    let comment_id = await this.db.getCommentID(repo, pr)
+    let comment_id = await this.db.getCommentID({repo, pr})
     if (comment_id) {
       await this.updateComment({repo, pr, comment_id})
     } else {

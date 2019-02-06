@@ -82,10 +82,10 @@ class Builds {
     }
   }
 
-  async getCommentID (repo, pr) {
+  async getCommentID (query) {
     await this.lock.acquireAsync()
     try {
-      const rval = await this.comments.findOne({repo, pr})
+      const rval = await this.comments.findOne(query)
       return rval ? rval.comment_id : null
     } finally {
       this.lock.release()
