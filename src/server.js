@@ -23,8 +23,7 @@ log.setDefaultLevel(log.levels[LOG_LEVEL])
 const builds = new Builds(DB_PATH, DB_SAVE_INTERVAL)
 
 /* necessary to post and update comments */
-const gh = new Octokit()
-gh.authenticate({type: 'token', token: GH_TOKEN})
+const gh = new Octokit({auth: `token ${GH_TOKEN}`})
 
 /* set valid repo names */
 const schema = Schema(GH_REPO_NAMES)
