@@ -1,34 +1,12 @@
 const log = require('loglevel')
 const Handlebars = require('handlebars')
+
 const template = require('./template')
+const helpers = require('./helpers')
 
 /* how many builds to show without folding */
 const VIS_BUILDS = 3
 const COMMENT_REGEX = /\#\#\# Jenkins Builds\n/
-
-/* loop helper compares commits of build and previous build */
-const commitHelper = (data, index, options) => {
-  if (index == 0) { return options.inverse(this); }
-  if (data[index].commit !== data[index-1].commit) { return options.fn(this); }
-  return options.inverse(this);
-}
-
-/* turns epoch time to human readable format */
-const dateHelper = (data) => new Handlebars.SafeString(
-  (new Date(data)).toISOString('utc').slice(0, 19).replace('T', ' ')
-)
-
-/* extracts file extension from url */
-const fileExt = (data) => {
-  let ext = data.split('.').pop()
-  if (ext.includes('/')) {
-    ext = ext.split('/').pop()
-  }
-  return new Handlebars.SafeString(ext)
-}
-
-/* remove seconds from duration to make columns equal width */
-const shortenDuration = (data) => (data.replace(/ [0-9]+ sec$/, ''))
 
 /* adds archive attribute to builds to mark for folding in template */
 const extractArchiveBuilds = (builds) => {
@@ -51,18 +29,14 @@ class Comments {
     this.db = builds
     this.repos = repos /* whitelist of repos to which we post */
     this.owner = owner /* name of user who makes the comments */
-    /* add helper for formatting dates */
-    Handlebars.registerHelper('date', dateHelper)
-    /* add helper extracting file extension */
-    Handlebars.registerHelper('fileExt', fileExt)
-    /* add helper for shortening duration field */
-    Handlebars.registerHelper('shortenDuration', shortenDuration)
-    /* add helper for checking change in commit */
-    Handlebars.registerHelper('commitChanged', commitHelper)
-    /* add partis */
-    Object.keys(template.partials).forEach(k=>
-      Handlebars.registerPartial(k, template.partials[k])
-    )
+    /* add template helpers */
+    Object.entries(helpers).forEach(([name, helper]) => (
+      Handlebars.registerHelper(name, helper)
+    ))
+    /* add template partis */
+    Object.entries(template.partials).forEach(([name, partial]) => (
+      Handlebars.registerPartial(name, partial)
+    ))
     /* setup templating for comments */
     this.template = Handlebars.compile(template.main);
   }
