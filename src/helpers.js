@@ -14,9 +14,11 @@ const formatDate = (data) => new Handlebars.SafeString(
 
 /* extracts file extension from url */
 const fileExt = (data) => {
-  let ext = data.split('.').pop()
-  if (ext.includes('/')) {
-    ext = ext.split('/').pop()
+  let ext = 'pkg' /* generic option for unexpected situations */
+  if (data.includes('diawi')) {
+    ext = 'ipa' /* diawi urls don't contain file extension */
+  } else if (data.includes('StatusIm-')) {
+    ext = data.split('.').pop()
   }
   return new Handlebars.SafeString(ext)
 }

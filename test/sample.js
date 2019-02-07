@@ -1,3 +1,10 @@
+const PKG_URLS = [
+  'https://example.org/StatusIm-123-456-abc-pr.apk',
+  'https://example.org/StatusIm-123-456-abc-pr.exe',
+  'https://i.diawi.com/ABCDxyz1',
+  'https://unknown.example.org/path/package',
+]
+
 /* example valid build */
 const BUILD = {
   id: 'ID-1',
@@ -5,8 +12,8 @@ const BUILD = {
   success: true,
   platform: 'PLATFORM-1',
   duration: 'DURATION-1',
-  url: 'https://example.com/some/url/path',
-  pkg_url: 'https://example.com/some/pkg/path.ext',
+  url: 'https://example.com/some/url/path/',
+  pkg_url: 'https://example.com/some/pkg/StatusIm-123-456-789.apk',
 }
 
 const getBuild = (idx) => ({
@@ -15,8 +22,8 @@ const getBuild = (idx) => ({
   success: (idx%3) ? true : false,
   platform: `PLATFORM-${idx}`,
   duration: `DURATION-${idx} 12 sec`,
-  url: `URL-${idx}`,
-  pkg_url: `PKG_URL-${idx}.ext${idx}`,
+  url: `URL-${idx}/`,
+  pkg_url: PKG_URLS[idx%PKG_URLS.length],
   meta: { created: 1545294300000+(idx*56789) },
 })
 
