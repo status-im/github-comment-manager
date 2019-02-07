@@ -19,10 +19,10 @@ The problem this solves is posting comments in a PR from multiple builds without
 
 # API
 
-It exposes just 1 call:
+It exposes 3 calls:
 
-* `POST /builds/:id` - Add a new build result and update the PR comment.
-* `POST /builds/:id/refresh` - Re-render the PR comment for given ID.
+* `POST /builds/:repo/:id` - Add a new build result and update the PR comment.
+* `POST /builds/:repo/:id/refresh` - Re-render the PR comment for given ID.
 * `POST /comments` - Show currently managed comments in PRs.
 
 By default it listens on `localhost:8080`.
