@@ -1,6 +1,7 @@
 const PKG_URLS = [
   'https://example.org/StatusIm-123-456-abc-pr.apk',
   'https://example.org/StatusIm-123-456-abc-pr.exe',
+  'https://example.org/StatusIm-123-456-abc-pr.AppImage',
   'https://i.diawi.com/ABCDxyz1',
   'https://unknown.example.org/path/package',
 ]

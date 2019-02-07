@@ -24,7 +24,7 @@ const buildRow = `
 {{#if this.success}}
 | :heavy_check_mark: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [:package: {{fileExt this.pkg_url }}]({{ this.pkg_url }}) |
 {{else}}
-| :x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [:page_facing_up: build log]({{ this.url }}consoleText) |
+| :x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [:page_facing_up: log]({{ this.url }}consoleText) |
 {{/if}}
 `.trim()
 module.exports = { main, partials: {buildRow, buildsTable} }

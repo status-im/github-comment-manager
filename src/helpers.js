@@ -20,7 +20,7 @@ const fileExt = (data) => {
   } else if (data.includes('StatusIm-')) {
     ext = data.split('.').pop()
   }
-  return new Handlebars.SafeString(ext)
+  return new Handlebars.SafeString(ext.slice(0, 3))
 }
 
 /* remove seconds from duration to make columns equal width */
