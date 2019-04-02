@@ -1,27 +1,10 @@
 const log = require('loglevel')
+const AwaitLock = require('await-lock')
 const Handlebars = require('handlebars')
 
-const template = require('./template')
+const utils = require('./utils')
 const helpers = require('./helpers')
-
-/* how many builds to show without folding */
-const VIS_BUILDS = 3
-const COMMENT_REGEX = /\#\#\# Jenkins Builds\n/
-
-/* adds archive attribute to builds to mark for folding in template */
-const extractArchiveBuilds = (builds) => {
-  /* get unique commits */
-  const commits = [...new Set(builds.map(b=>b.commit))]
-  /* if there's not too many don't archive any */
-  if (commits.length < VIS_BUILDS) {
-    return {visible: builds, archived: []}
-  }
-  /* split builds into visible and archived */
-  const archivedCommits = commits.slice(0, -(VIS_BUILDS-1))
-  const archived = builds.filter(b => archivedCommits.includes(b.commit))
-  const visible  = builds.slice(archived.length)
-  return {visible, archived}
-}
+const template = require('./template')
 
 class Comments {
   constructor({client, owner, repos, builds}) {
@@ -29,6 +12,7 @@ class Comments {
     this.db = builds
     this.repos = repos /* whitelist of repos to which we post */
     this.owner = owner /* name of user who makes the comments */
+    this.lock = new AwaitLock()
     /* add template helpers */
     Object.entries(helpers).forEach(([name, helper]) => (
       Handlebars.registerHelper(name, helper)
@@ -47,7 +31,7 @@ class Comments {
       throw Error('No builds exist for this PR')
     }
     /* split to be able to fold if there are too many builds */
-    const {visible, archived} = extractArchiveBuilds(builds)
+    const {visible, archived} = utils.extractArchiveBuilds(builds)
     return this.template({visible, archived})
   }
 
@@ -80,13 +64,19 @@ class Comments {
     if (!this.repos.includes(repo)) {
       throw Error(`Repo not whitelisted: ${repo}`)
     }
-    /* check if comment was already posted */
-    let comment_id = await this.db.getCommentID({repo, pr})
-    if (comment_id) {
-      await this.updateComment({repo, pr, comment_id})
-    } else {
-      comment_id = await this.postComment({repo, pr})
-      await this.db.addComment({repo, pr, comment_id})
+    /* we use a lock to avoid creating multiple comments */
+    await this.lock.acquireAsync()
+    try {
+      /* check if comment was already posted */
+      let comment_id = await this.db.getCommentID({repo, pr})
+      if (comment_id) {
+        await this.updateComment({repo, pr, comment_id})
+      } else {
+        comment_id = await this.postComment({repo, pr})
+        await this.db.addComment({repo, pr, comment_id})
+      }
+    } finally {
+      this.lock.release()
     }
   }
 }

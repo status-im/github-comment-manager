@@ -1,11 +1,9 @@
 const log = require('loglevel')
 const Joi = require('joi')
 const Loki = require('lokijs')
-const AwaitLock = require('await-lock')
 
 class Builds {
   constructor(path, interval) {
-    this.lock = new AwaitLock()
     this.db = new Loki(path, {
       autoload: true,
       autosave: true,
@@ -73,23 +71,13 @@ class Builds {
   }
 
   async addComment ({repo, pr, comment_id}) {
-    await this.lock.acquireAsync()
-    try {
-      log.info(`Storing comment for PR-${pr}: ${comment_id}`)
-      return await this.comments.insert({repo, pr, comment_id})
-    } finally {
-      this.lock.release()
-    }
+    log.info(`Storing comment for PR-${pr}: ${comment_id}`)
+    return await this.comments.insert({repo, pr, comment_id})
   }
 
   async getCommentID (query) {
-    await this.lock.acquireAsync()
-    try {
-      const rval = await this.comments.findOne(query)
-      return rval ? rval.comment_id : null
-    } finally {
-      this.lock.release()
-    }
+    const rval = await this.comments.findOne(query)
+    return rval ? rval.comment_id : null
   }
 
   async getComments () {
