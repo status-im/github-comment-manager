@@ -24,29 +24,6 @@ const App = ({ghc, schema}) => {
     ctx.body = 'OK'
   })
 
-  /* TEMPORARY fix to keep backwards compatibility */
-  router.route({
-    method: 'post',
-    path: '/builds/:pr',
-    validate: {
-      type: 'json',
-      body: schema,
-    },
-    handler: async (ctx) => {
-      await ghc.db.addBuild({
-        repo: 'status-react', 
-        pr: ctx.params.pr,
-        build: ctx.request.body,
-      })
-      await ghc.update({
-        repo: 'status-react',
-        pr: ctx.params.pr,
-      })
-      ctx.status = 201
-      ctx.body = {status:'ok'}
-    }
-  })
-  
   /* store build and post/update the comment */
   router.route({
     method: 'post',
