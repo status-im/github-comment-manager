@@ -12,7 +12,7 @@ class Comments {
     this.db = builds
     this.repos = repos /* whitelist of repos to which we post */
     this.owner = owner /* name of user who makes the comments */
-    this.lock = new AwaitLock()
+    this.locks = {}    /* locks per repo+pr avoid race cond.  */
     /* add template helpers */
     Object.entries(helpers).forEach(([name, helper]) => (
       Handlebars.registerHelper(name, helper)
@@ -25,7 +25,7 @@ class Comments {
     this.template = Handlebars.compile(template.main);
   }
 
-  async renderComment ({repo, pr}) {
+  async _renderComment ({repo, pr}) {
     const builds = await this.db.getBuilds({repo, pr})
     if (builds.length == 0) {
       throw Error('No builds exist for this PR')
@@ -35,9 +35,9 @@ class Comments {
     return this.template({visible, archived})
   }
 
-  async postComment ({repo, pr}) {
+  async _postComment ({repo, pr}) {
     log.info(`Creating comment in PR-${pr}`)
-    const body = await this.renderComment({repo, pr})
+    const body = await this._renderComment({repo, pr})
     const rval = await this.gh.issues.createComment({
       owner: this.owner,
       repo: repo,
@@ -47,9 +47,9 @@ class Comments {
     return rval.data.id
   }
 
-  async updateComment ({repo, pr, comment_id}) {
+  async _updateComment ({repo, pr, comment_id}) {
     log.info(`Updating comment #${comment_id} in PR-${pr}`)
-    const body = await this.renderComment({repo, pr})
+    const body = await this._renderComment({repo, pr})
     const rval = await this.gh.issues.updateComment({
       owner: this.owner,
       repo: repo,
@@ -59,24 +59,31 @@ class Comments {
     return rval.data.id
   }
 
-  async update ({repo, pr}) {
+  async _update ({repo, pr}) {
     /* check if repo is in a whitelist */
     if (!this.repos.includes(repo)) {
       throw Error(`Repo not whitelisted: ${repo}`)
     }
+    /* check if comment was already posted */
+    let comment_id = await this.db.getCommentID({repo, pr})
+    if (comment_id) {
+      await this._updateComment({repo, pr, comment_id})
+    } else {
+      comment_id = await this._postComment({repo, pr})
+      await this.db.addComment({repo, pr, comment_id})
+    }
+  }
+
+  async update ({repo, pr}) {
     /* we use a lock to avoid creating multiple comments */
-    await this.lock.acquireAsync()
+    let key = repo + pr
+    /* use existing lock for repo+pr or create a new one */
+    this.locks[key] || ( this.locks[key] = new AwaitLock() )
+    await this.locks[key].acquireAsync()
     try {
-      /* check if comment was already posted */
-      let comment_id = await this.db.getCommentID({repo, pr})
-      if (comment_id) {
-        await this.updateComment({repo, pr, comment_id})
-      } else {
-        comment_id = await this.postComment({repo, pr})
-        await this.db.addComment({repo, pr, comment_id})
-      }
+      this._update({repo, pr})
     } finally {
-      this.lock.release()
+      this.locks[key].release()
     }
   }
 }

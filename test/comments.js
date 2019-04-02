@@ -62,27 +62,27 @@ describe('Comments', () => {
     })
   })
   
-  describe('renderComment', () => {
+  describe('_renderComment', () => {
     it('should fail with no builds', async () => {
       builds.getBuilds.returns([])
-      expect(comments.renderComment('PR-ID')).rejectedWith('No builds exist for this PR')
+      expect(comments._renderComment('PR-ID')).rejectedWith('No builds exist for this PR')
     })
 
     it('should render less than 3 comments fully', async () => {
-      let body = await comments.renderComment('PR-ID')
+      let body = await comments._renderComment('PR-ID')
       expect(body).to.eq(COMMENT)
     })
 
     it('should render more than 3 comments folded', async () => {
       builds.getBuilds.returns(sample.BUILDS)
-      let body = await comments.renderComment('PR-ID')
+      let body = await comments._renderComment('PR-ID')
       expect(body).to.eq(COMMENT_FOLDED)
     })
   })
 
-  describe('postComment', () => {
+  describe('_postComment', () => {
     it('should create a new comment', async () => {
-      let id = await comments.postComment({
+      let id = await comments._postComment({
         repo: 'REPO-1', pr: 'PR-ID',
       })
       expect(id).to.eq('ISSUE-ID')
@@ -95,9 +95,9 @@ describe('Comments', () => {
     })
   })
 
-  describe('updateComment', () => {
+  describe('_updateComment', () => {
     it('should update existing comment', async () => {
-      let id = await comments.updateComment({
+      let id = await comments._updateComment({
         repo: 'REPO-1', pr: 'PR-ID', comment_id: 'COMMENT-ID',
       })
       expect(id).to.eq('ISSUE-ID')
