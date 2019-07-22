@@ -36,7 +36,7 @@ const App = ({ghc, schema}) => {
       await ghc.db.addBuild({
         ...ctx.params, build: ctx.request.body
       })
-      await ghc.update(ctx.params)
+      await ghc.safeUpdate(ctx.params)
       ctx.status = 201
       ctx.body = {status:'ok'}
     }
@@ -44,7 +44,7 @@ const App = ({ghc, schema}) => {
   
   /* just re-render the comment */
   router.post('/builds/:repo/:pr/refresh', async (ctx) => {
-    await ghc.update(ctx.params)
+    await ghc.safeUpdate(ctx.params)
     ctx.status = 201
     ctx.body = {status:'ok'}
   })

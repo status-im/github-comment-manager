@@ -59,7 +59,7 @@ class Comments {
     return rval.data.id
   }
 
-  async _update ({repo, pr}) {
+  async update ({repo, pr}) {
     /* check if repo is in a whitelist */
     if (!this.repos.includes(repo)) {
       throw Error(`Repo not whitelisted: ${repo}`)
@@ -74,14 +74,14 @@ class Comments {
     }
   }
 
-  async update ({repo, pr}) {
+  async safeUpdate ({repo, pr}) {
     /* we use a lock to avoid creating multiple comments */
     let key = repo + pr
     /* use existing lock for repo+pr or create a new one */
     this.locks[key] || ( this.locks[key] = new AwaitLock() )
     await this.locks[key].acquireAsync()
     try {
-      this._update({repo, pr})
+      await this.update({repo, pr})
     } finally {
       this.locks[key].release()
     }

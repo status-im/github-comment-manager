@@ -48,7 +48,7 @@ describe('App', () => {
       expect(ghc.db.addBuild).calledOnceWith({
         repo: 'REPO-1', pr: 'PR-1', build: sample.BUILD,
       })
-      expect(ghc.update).calledOnceWith({
+      expect(ghc.safeUpdate).calledOnceWith({
         repo: 'REPO-1', pr: 'PR-1'
       })
     })
@@ -65,7 +65,7 @@ describe('App', () => {
       expect(ghc.db.addBuild).not.calledOnceWith({
         repo: 'REPO-1', pr: 'PR-1', build: sample.BUILD
       })
-      expect(ghc.update).calledOnceWith({
+      expect(ghc.safeUpdate).calledOnceWith({
         repo: 'REPO-1', pr: 'PR-1',
       })
     })
