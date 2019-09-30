@@ -89,7 +89,7 @@ describe('Comments', () => {
       expect(client.issues.createComment).calledOnceWith({
         body: sinon.match.any,
         owner: 'owner',
-        number: 'PR-ID',
+        issue_number: 'PR-ID',
         repo: 'REPO-1',
       })
     })

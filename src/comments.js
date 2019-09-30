@@ -41,7 +41,7 @@ class Comments {
     const rval = await this.gh.issues.createComment({
       owner: this.owner,
       repo: repo,
-      number: pr,
+      issue_number: pr,
       body,
     })
     return rval.data.id
