@@ -26,9 +26,24 @@ const fileExt = (data) => {
 /* remove seconds from duration to make columns equal width */
 const shortenDuration = (data) => (data.replace(/ [0-9]+ sec$/, ''))
 
+/* generate URL for a QR code of given text */
+const genQRCodeUrl = (data) => {
+  /* just for mobile packages, useless for others */
+  if (!data.endsWith('apk') && !data.includes('i.diawi.com')) {
+    return ''
+  }
+  return new Handlebars.SafeString([
+    '[:calling:]',
+    '(https://chart.apis.google.com/',
+    `chart?cht=qr&chs=400x400&chld=L%7C%0A0&chl=`,
+    encodeURIComponent(data), ')'
+  ].join(''))
+}
+
 module.exports = {
   commitChanged,
   formatDate,
   fileExt,
   shortenDuration,
+  genQRCodeUrl,
 }

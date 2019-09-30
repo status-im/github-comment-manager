@@ -13,7 +13,7 @@ The problem this solves is posting comments in a PR from multiple builds without
 | :x: | a088572b | [#3](https://google.pl) | 2018-12-21 12:12:55 | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
 | :x: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:18 | ~12 min | `android` | [:page_facing_up: build log](https://google.plconsoleText) |
 | :heavy_check_mark: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:53 | ~12 min | `ios` | [:package: api](https://google.pl) |
-| :heavy_check_mark: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:34 | ~12 min | `android` | [:package: apk](https://google.pl) |
+| :heavy_check_mark: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:34 | ~12 min | `android` | [:package: apk](https://google.pl) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L|0&chl=https%3A%2F%2Fgoogle.pl) |
 | :heavy_check_mark: | a088572b | [#3](https://google.pl) | 2018-12-21 12:14:44 | ~12 min | `windows` | [:package: exe](https://google.pl) |
 ---
 
