@@ -35,7 +35,7 @@ const genQRCodeUrl = (data) => {
   return new Handlebars.SafeString([
     '[:calling:]',
     '(https://chart.apis.google.com/',
-    `chart?cht=qr&chs=400x400&chld=L%7C%0A0&chl=`,
+    `chart?cht=qr&chs=400x400&chld=L%7C%0A1&chl=`,
     encodeURIComponent(data), ')'
   ].join(''))
 }

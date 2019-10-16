@@ -28,16 +28,16 @@ const COMMENT_FOLDED = `
 | :x: | COMMIT-0 | [ID-3](URL-3/) | 2018-12-20 08:27:50 | DURATION-3 | \`PLATFORM-3\` | [:page_facing_up:\`log\`](URL-3/consoleText) |
 | | | | | | | |
 | :heavy_check_mark: | COMMIT-1 | [ID-4](URL-4/) | 2018-12-20 08:28:47 | DURATION-4 | \`PLATFORM-4\` | [:package:\`pkg\`](https://unknown.example.org/path/package) |
-| :heavy_check_mark: | COMMIT-1 | [ID-5](URL-5/) | 2018-12-20 08:29:43 | DURATION-5 | \`PLATFORM-5\` | [:package:\`apk\`](https://example.org/StatusIm-123-456-abc-pr.apk) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L%7C%0A0&chl=https%3A%2F%2Fexample.org%2FStatusIm-123-456-abc-pr.apk)|
+| :heavy_check_mark: | COMMIT-1 | [ID-5](URL-5/) | 2018-12-20 08:29:43 | DURATION-5 | \`PLATFORM-5\` | [:package:\`apk\`](https://example.org/StatusIm-123-456-abc-pr.apk) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L%7C%0A1&chl=https%3A%2F%2Fexample.org%2FStatusIm-123-456-abc-pr.apk)|
 | :x: | COMMIT-1 | [ID-6](URL-6/) | 2018-12-20 08:30:40 | DURATION-6 | \`PLATFORM-6\` | [:page_facing_up:\`log\`](URL-6/consoleText) |
 | :heavy_check_mark: | COMMIT-1 | [ID-7](URL-7/) | 2018-12-20 08:31:37 | DURATION-7 | \`PLATFORM-7\` | [:package:\`App\`](https://example.org/StatusIm-123-456-abc-pr.AppImage) |
 </details>
 
 | :grey_question: | Commit | :hash: | Finished (UTC) | Duration | Platform | Result |
 |-|-|-|-|-|-|-|
-| :heavy_check_mark: | COMMIT-2 | [ID-8](URL-8/) | 2018-12-20 08:32:34 | DURATION-8 | \`PLATFORM-8\` | [:package:\`ipa\`](https://i.diawi.com/ABCDxyz1) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L%7C%0A0&chl=https%3A%2F%2Fi.diawi.com%2FABCDxyz1)|
+| :heavy_check_mark: | COMMIT-2 | [ID-8](URL-8/) | 2018-12-20 08:32:34 | DURATION-8 | \`PLATFORM-8\` | [:package:\`ipa\`](https://i.diawi.com/ABCDxyz1) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L%7C%0A1&chl=https%3A%2F%2Fi.diawi.com%2FABCDxyz1)|
 | :x: | COMMIT-2 | [ID-9](URL-9/) | 2018-12-20 08:33:31 | DURATION-9 | \`PLATFORM-9\` | [:page_facing_up:\`log\`](URL-9/consoleText) |
-| :heavy_check_mark: | COMMIT-2 | [ID-10](URL-10/) | 2018-12-20 08:34:27 | DURATION-10 | \`PLATFORM-10\` | [:package:\`apk\`](https://example.org/StatusIm-123-456-abc-pr.apk) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L%7C%0A0&chl=https%3A%2F%2Fexample.org%2FStatusIm-123-456-abc-pr.apk)|
+| :heavy_check_mark: | COMMIT-2 | [ID-10](URL-10/) | 2018-12-20 08:34:27 | DURATION-10 | \`PLATFORM-10\` | [:package:\`apk\`](https://example.org/StatusIm-123-456-abc-pr.apk) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L%7C%0A1&chl=https%3A%2F%2Fexample.org%2FStatusIm-123-456-abc-pr.apk)|
 | :heavy_check_mark: | COMMIT-2 | [ID-11](URL-11/) | 2018-12-20 08:35:24 | DURATION-11 | \`PLATFORM-11\` | [:package:\`exe\`](https://example.org/StatusIm-123-456-abc-pr.exe) |
 | | | | | | | |
 | :x: | COMMIT-3 | [ID-12](URL-12/) | 2018-12-20 08:36:21 | DURATION-12 | \`PLATFORM-12\` | [:page_facing_up:\`log\`](URL-12/consoleText) |
