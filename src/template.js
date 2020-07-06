@@ -21,10 +21,18 @@ const buildsTable = `
 {{/each}}
 `.trim()
 const buildRow = `
-{{#if this.success}}
+{{#if this.success }}
+  {{#if this.pkg_url }}
 | :heavy_check_mark: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [:package:\`{{fileExt this.pkg_url }}\`]({{ this.pkg_url }}) {{ genQRCodeUrl this.pkg_url }}|
+  {{else}}
+| :interrobang: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [:page_facing_up:\`log\`]({{ this.url }}consoleText) |
+  {{/if}}
 {{else}}
+  {{#if this.pkg_url }}
+| :heavy_multiplication_x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [:package:\`{{fileExt this.pkg_url }}\`]({{ this.pkg_url }}) {{ genQRCodeUrl this.pkg_url }}|
+  {{else}}
 | :x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [:page_facing_up:\`log\`]({{ this.url }}consoleText) |
+  {{/if}}
 {{/if}}
 `.trim()
 module.exports = { main, partials: {buildRow, buildsTable} }

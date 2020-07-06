@@ -1,9 +1,11 @@
 const PKG_URLS = [
   'https://example.org/StatusIm-123-456-abc-pr.apk',
   'https://example.org/StatusIm-123-456-abc-pr.exe',
+  null,
   'https://example.org/StatusIm-123-456-abc-pr.AppImage',
   'https://i.diawi.com/ABCDxyz1',
   'https://unknown.example.org/path/package',
+  null,
 ]
 
 /* example valid build */
@@ -24,7 +26,7 @@ const getBuild = (idx) => ({
   platform: `PLATFORM-${idx}`,
   duration: `DURATION-${idx} 12 sec`,
   url: `URL-${idx}/`,
-  pkg_url: PKG_URLS[idx%PKG_URLS.length],
+  pkg_url: PKG_URLS[(idx-1)%PKG_URLS.length],
   meta: { created: 1545294300000+(idx*56789) },
 })
 
