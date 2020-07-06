@@ -14,6 +14,7 @@ describe('App', () => {
     ghc = sinon.createStubInstance(Comments)
     ghc.db = sinon.createStubInstance(Builds, {
       getComments: sample.COMMENTS,
+      getBuilds: sample.BUILDS,
     }),
     app = App({ghc})
   })
@@ -28,7 +29,7 @@ describe('App', () => {
   })
 
   describe('GET /comments', () => {
-    it('should return list of builds', async () => {
+    it('should return list of comments', async () => {
       const resp = await request(app.callback())
         .get('/comments')
       expect(resp.body).to.eql({
@@ -54,6 +55,16 @@ describe('App', () => {
     })
   })
 
+  describe('GET /builds/:repo/:pr', () => {
+    it('should return list of builds', async () => {
+      const resp = await request(app.callback())
+        .get('/builds/REPO-1/PR-1')
+      expect(resp.body).to.eql({
+        count: sample.BUILDS.length, builds: sample.BUILDS,
+      })
+      expect(resp.status).to.eq(200)
+    })
+  })
 
   describe('POST /builds/:repo/:pr/refresh', () => {
     it('should update github comment', async () => {
