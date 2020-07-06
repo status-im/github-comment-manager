@@ -66,6 +66,18 @@ describe('App', () => {
     })
   })
 
+  describe('DELETE /builds/:repo/:pr', () => {
+    it('should delete all matching builds', async () => {
+      const resp = await request(app.callback())
+        .delete('/builds/REPO-1/PR-1')
+      expect(resp.body).to.eql({})
+      expect(resp.status).to.eq(200)
+      expect(ghc.db.removeBuilds).calledOnceWith({
+        repo: 'REPO-1', pr: 'PR-1',
+      })
+    })
+  })
+
   describe('POST /builds/:repo/:pr/refresh', () => {
     it('should update github comment', async () => {
       const resp = await request(app.callback())

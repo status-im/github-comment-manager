@@ -65,13 +65,18 @@ class Builds {
     })
   }
 
+  async removeBuilds ({repo, pr}) {
+    log.info(`Removing build for ${repo}/PR-${pr}`)
+    return await this.builds.findAndRemove({repo, pr})
+  }
+
   async addBuild ({repo, pr, build}) {
-    log.info(`Storing build for PR-${pr}: #${build.id} for ${build.platform}`)
+    log.info(`Storing build for ${repo}/PR-${pr}: #${build.id} for ${build.platform}`)
     return await this.builds.insert({repo, pr, ...build})
   }
 
   async addComment ({repo, pr, comment_id}) {
-    log.info(`Storing comment for PR-${pr}: ${comment_id}`)
+    log.info(`Storing comment for ${repo}/PR-${pr}: ${comment_id}`)
     return await this.comments.insert({repo, pr, comment_id})
   }
 

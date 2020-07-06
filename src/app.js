@@ -55,6 +55,12 @@ const App = ({ghc, schema}) => {
     ctx.body = {count: builds.length, builds}
   })
 
+  /* drop builds for repo+pr */
+  router.delete('/builds/:repo/:pr', async (ctx) => {
+    const rval = await ghc.db.removeBuilds(ctx.params)
+    ctx.body = {}
+  })
+
   /* list all managed comments */
   router.get('/comments', async (ctx) => {
     const comments = await ghc.db.getComments()
