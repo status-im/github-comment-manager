@@ -1,6 +1,6 @@
 const log = require('loglevel')
 const Logger = require('koa-logger')
-const Octokit = require('@octokit/rest')
+const { Octokit } = require('@octokit/rest')
 
 const App = require('./app')
 const Builds = require('./builds')
