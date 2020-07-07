@@ -10,22 +10,25 @@ The problem this solves is posting comments in a PR from multiple builds without
 ### Jenkins Builds
 | :grey_question: | Commit | :hash: | Finished (UTC) | Duration | Platform | Result |
 |-|-|-|-|-|-|-|
-| :x: | a088572b | [#3](https://google.pl) | 2018-12-21 12:12:55 | ~12 min | `android` | [:page_facing_up:`log`](https://google.plconsoleText) |
-| :x: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:18 | ~12 min | `android` | [:page_facing_up:`log`](https://google.plconsoleText) |
-| :heavy_check_mark: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:53 | ~12 min | `ios` | [:package:`api`](https://google.pl) |
-| :heavy_check_mark: | a088572b | [#3](https://google.pl) | 2018-12-21 12:13:34 | ~12 min | `android` | [:package:`apk`](https://google.pl) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L%7C%0A0&chl=https%3A%2F%2Fgoogle.pl) |
-| :heavy_check_mark: | a088572b | [#3](https://google.pl) | 2018-12-21 12:14:44 | ~12 min | `windows` | [:package:`exe`](https://google.pl) |
+| :x: | a088572b | [#3](https://example.org) | 2018-12-21 12:13:18 | ~12 min | `android` | [:page_facing_up:`log`](https://example.org) |
+| :heavy_check_mark: | a088572b | [#3](https://example.org) | 2018-12-21 12:13:53 | ~12 min | `ios` | [:package:`api`](https://example.org) |
+| :heavy_check_mark: | a088572b | [#3](https://example.org) | 2018-12-21 12:13:34 | ~12 min | `android` | [:package:`apk`](https://example.org) [:calling:](https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=L%7C%0A0&chl=https%3A%2F%2Fexample.org) |
+| :heavy_check_mark: | a088572b | [#3](https://example.org) | 2018-12-21 12:14:44 | ~12 min | `windows` | [:package:`exe`](https://example.org) |
+| :interrobang: | a088572b | [#3](https://example.org) | 2018-12-21 12:15:37 | ~13 min | `macos` | [:page_facing_up:`log`](https://example.org) |
+| :heavy_multiplication_x: | a088572b | [#3](https://example.org) | 2018-12-21 12:16:40 | ~12 min | `linux` | [:package:`pkg`](https://unknown.example.org/path/package) |
 ---
 
 # API
 
 It exposes 3 calls:
 
-* `POST /builds/:repo/:id` - Add a new build result and update the PR comment.
-* `POST /builds/:repo/:id/refresh` - Re-render the PR comment for given ID.
+* `GET /builds/:repo/:pr` - Return all known builds for given PR in repo.
+* `POST /builds/:repo/:pr` - Add a new build result and update the PR comment.
+* `POST /builds/:repo/:pr/refresh` - Re-render the comment for given PR ID.
+* `DELETE /builds/:repo/:pr` - Delete all known builds for given PR ID in repo. 
 * `POST /comments` - Show currently managed comments in PRs.
 
-By default it listens on `localhost:8080`.
+By default it listens on `localhost:8000`.
 
 # Usage
 
@@ -38,10 +41,10 @@ $ cat << EOF
 }
 EOF >> /tmp/body/json
 
-$ curl -s -XPOST http://localhost:8000/builds/7123 -d@/tmp/body.json -H 'Content-Type: application/json'
+$ curl -s -XPOST http://localhost:8000/builds/my-repo/7123 -d@/tmp/body.json -H 'Content-Type: application/json'
 { "status": "ok" }
 
-$ curl -s -XPOST http://localhost:8000/builds/7123/refresh
+$ curl -s -XPOST http://localhost:8000/builds/my-repo/7123/refresh
 { "status": "ok" }
 ```
 You can also check all PRs the application knows about:
