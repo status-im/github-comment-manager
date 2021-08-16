@@ -19,6 +19,14 @@ describe('App', () => {
     app = App({ghc})
   })
 
+  describe('GET /', () => {
+    it('should redirect to main site', async () => {
+      const resp = await request(app.callback()).get('/')
+      expect(resp.status).to.eq(302)
+      expect(resp.headers.location).to.eq('https://status.im/')
+    })
+  })
+
   describe('GET /health', () => {
     it('should return OK', async () => {
       const resp = await request(app.callback())

@@ -21,6 +21,10 @@ const App = ({ghc, schema}) => {
      .use(router.middleware())
      .use(BodyParser({onerror:console.error}))
 
+  router.get('/', async (ctx) => {
+    ctx.redirect('https://status.im/')
+  })
+
   router.get('/health', async (ctx) => {
     ctx.body = 'OK'
   })
