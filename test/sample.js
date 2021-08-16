@@ -6,6 +6,7 @@ const PKG_URLS = [
   'https://i.diawi.com/ABCDxyz1',
   'https://unknown.example.org/path/package',
   null,
+  'https://example.org/StatusIm-123-456-abc-pr.tar.gz',
 ]
 
 /* example valid build */

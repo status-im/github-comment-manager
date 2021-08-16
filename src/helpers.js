@@ -17,6 +17,8 @@ const fileExt = (data) => {
   let ext = 'pkg' /* generic option for unexpected situations */
   if (data.includes('diawi')) {
     ext = 'ipa' /* diawi urls don't contain file extension */
+  } else if (data.endsWith('tar.gz')) {
+    ext = 'tgz' /* three-letter extensions just look nicer */
   } else if (data.match(/^https?:\/\/.+\/[^.]+\.(\w{3,8})$/)) {
     ext = data.split('.').pop()
   }
