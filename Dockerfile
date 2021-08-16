@@ -1,4 +1,8 @@
-FROM node:10.14-alpine
+FROM node:14.17-alpine
+
+LABEL source="https://github.com/status-im/github-comment-manager" \
+      description="Basic NodeJS API for managing CI build GitHub posts." \
+      maintainer="jakub@status.im"
 
 WORKDIR /app
 
@@ -14,10 +18,6 @@ ENV LOG_LEVEL=INFO \
     GH_TOKEN='' \
     GH_REPO_OWNER='' \
     GH_REPO_NAME=''
-
-LABEL source="https://github.com/status-im/github-comment-manager" \
-      description="Basic NodeJS API for managing CI build GitHub posts." \
-      maintainer="jakub@status.im"
 
 CMD ["npm", "start"]
 EXPOSE $LISTEN_PORT
