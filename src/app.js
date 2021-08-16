@@ -11,6 +11,7 @@ const App = ({ghc, schema}) => {
   const router = new JoiRouter()
 
   app.on('error', (err, ctx) => {
+    /* istanbul ignore next */
     console.error('server error', err, ctx)
   })
 

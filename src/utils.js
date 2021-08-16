@@ -16,8 +16,4 @@ const extractArchiveBuilds = (builds) => {
   return {visible, archived}
 }
 
-const setDefault = (obj, prop, deflt) => {
-  return obj.hasOwnProperty(prop) ? obj[prop] : (obj[prop] = deflt);
-}
-
-module.exports = { extractArchiveBuilds, setDefault }
+module.exports = { extractArchiveBuilds }
