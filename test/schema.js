@@ -12,7 +12,7 @@ describe('Schema', () => {
     /* refresh for every test */
     build = Object.assign({}, sample.BUILD)
   })
-  
+
   describe('id', () => {
     it('can be a string', () => {
       let rval = schema.validate(build)

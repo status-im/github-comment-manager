@@ -19,12 +19,25 @@ const fileExt = (data) => {
     ext = 'ipa' /* diawi urls don't contain file extension */
   } else if (data.endsWith('tar.gz')) {
     ext = 'tgz' /* three-letter extensions just look nicer */
-  } else if (data.endsWith('consoleText')) {
+  } else if (data.endsWith('consoleText') || data == 'log') {
     ext = 'log' /* log link is often a fallback */
   } else if (data.match(/^https?:\/\/.+\/[^.]+\.(\w{3,8})$/)) {
     ext = data.split('.').pop()
   }
-  return new Handlebars.SafeString(ext.slice(0, 3))
+  return Handlebars.Utils.escapeExpression(ext.slice(0, 3))
+}
+
+/* pick different icons for different urls */
+const fileIcon = (data) => {
+  switch (fileExt(data)) {
+    case 'pkg': return ':package:';
+    case 'apk': return ':robot:';
+    case 'ipa': return ':iphone:';
+    case 'exe': return ':cd:';
+    case 'dmg': return ':apple:';
+    case 'log': return ':page_facing_up:';
+    default:    return ':package:';
+  }
 }
 
 /* remove seconds from duration to make columns equal width */
@@ -48,6 +61,7 @@ module.exports = {
   commitChanged,
   formatDate,
   fileExt,
+  fileIcon,
   shortenDuration,
   genQRCodeUrl,
 }
