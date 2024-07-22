@@ -11,11 +11,11 @@ const main = `
 {{> buildsTable visible }}
 `
 const buildsTable = `
-| :grey_question: | Commit | :hash: | Finished (UTC) | Duration | Platform | Result |
-|-|-|-|-|-|-|-|
+| :grey_question: | Commit | :hash: | Finished (UTC) | Duration | Platform | Arch | Result |
+|-|-|-|-|-|-|-|-|
 {{#each this}}
 {{#commitChanged ../this @index}}
-| | | | | | | |
+| | | | | | | | |
 {{/commitChanged}}
 {{> buildRow }}
 {{/each}}
@@ -23,15 +23,15 @@ const buildsTable = `
 const buildRow = `
 {{#if this.success }}
   {{#if this.pkg_url }}
-| :heavy_check_mark: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [{{ fileIcon this.pkg_url }}\`{{ fileExt this.pkg_url }}\`]({{ this.pkg_url }}) {{ genQRCodeUrl this.pkg_url }}|
+| :heavy_check_mark: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | \`{{ this.arch }}\` | [{{ fileIcon this.pkg_url }}\`{{ fileExt this.pkg_url }}\`]({{ this.pkg_url }}) {{ genQRCodeUrl this.pkg_url }}|
   {{else}}
-| :interrobang: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [{{ fileIcon "log" }}\`log\`]({{ this.url }}consoleText) |
+| :interrobang: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | \`{{ this.arch }}\` | [{{ fileIcon "log" }}\`log\`]({{ this.url }}consoleText) |
   {{/if}}
 {{else}}
   {{#if this.pkg_url }}
-| :heavy_multiplication_x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [{{ fileIcon this.pkg_url }}\`{{ fileExt this.pkg_url }}\`]({{ this.pkg_url }}) {{ genQRCodeUrl this.pkg_url }}|
+| :heavy_multiplication_x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | \`{{ this.arch }}\` | [{{ fileIcon this.pkg_url }}\`{{ fileExt this.pkg_url }}\`]({{ this.pkg_url }}) {{ genQRCodeUrl this.pkg_url }}|
   {{else}}
-| :x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | [{{ fileIcon "log" }}\`log\`]({{ this.url }}consoleText) |
+| :x: | {{ this.commit }} | [{{ this.id }}]({{ this.url }}) | {{formatDate this.meta.created }} | {{ shortenDuration this.duration }} | \`{{ this.platform }}\` | \`{{ this.arch }}\` | [{{ fileIcon "log" }}\`log\`]({{ this.url }}consoleText) |
   {{/if}}
 {{/if}}
 `.trim()

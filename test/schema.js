@@ -16,13 +16,13 @@ describe('Schema', () => {
   describe('id', () => {
     it('can be a string', () => {
       let rval = schema.validate(build)
-      expect(rval.value).to.eql(build)
+      expect(rval.value).to.eql({ ...build, arch: 'unknown' })
     })
 
     it('can be a number', () => {
       build.id = 123
       let rval = schema.validate(build)
-      expect(rval.value).to.eql(build)
+      expect(rval.value).to.eql({ ...build, arch: 'unknown' })
     })
 
     it('can\'t be null', () => {
@@ -37,7 +37,7 @@ describe('Schema', () => {
   describe('commit', () => {
     it('has to be a commit', () => {
       let rval = schema.validate(build)
-      expect(rval.value).to.eql(build)
+      expect(rval.value).to.eql({ ...build, arch: 'unknown' })
     })
 
     it('can\'t be a null', () => {
@@ -57,16 +57,37 @@ describe('Schema', () => {
     })
   })
 
+  describe('arch', () => {
+    it('defaults to "unknown"', () => {
+      let rval = schema.validate(build)
+      expect(rval.value).to.eql({ ...build, arch: 'unknown' })
+    })
+
+    it('can be x86_64', () => {
+      build.arch = 'x86_64'
+      let rval = schema.validate(build)
+      expect(rval.value).to.eql(build)
+    })
+
+    it('can\'t have special chars', () => {
+      build.arch = '-+='
+      let rval = schema.validate(build)
+      expect(rval.error.message).to.eq(
+        '"arch" with value "-+=" fails to match the required pattern: /^[a-zA-Z0-9_]/'
+      )
+    })
+  })
+
   describe('pkg_url', () => {
     it('has to be a URL', () => {
       let rval = schema.validate(build)
-      expect(rval.value).to.eql(build)
+      expect(rval.value).to.eql({ ...build, arch: 'unknown' })
     })
 
     it('can be a null', () => {
       build.pkg_url = null
       let rval = schema.validate(build)
-      expect(rval.value).to.eql(build)
+      expect(rval.value).to.eql({ ...build, arch: 'unknown' })
     })
 
     it('can\'t be a number', () => {

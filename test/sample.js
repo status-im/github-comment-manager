@@ -20,11 +20,15 @@ const BUILD = {
   pkg_url: 'https://example.com/some/pkg/StatusIm-123-456-789.apk',
 }
 
+const archs = [ 'i386', 'x86_64', 'aarch64', 'arm64' ]
+const platforms = [ 'linux', 'macos', 'windows', 'android', 'ios' ]
+
 const getBuild = (idx) => ({
   id: `ID-${idx}`,
   commit: `COMMIT-${Math.floor(idx/4)}`,
   success: (idx%3) ? true : false,
-  platform: `PLATFORM-${idx}`,
+  platform: platforms[idx%platforms.length],
+  arch: archs[idx%archs.length],
   duration: `DURATION-${idx} 12 sec`,
   url: `URL-${idx}/`,
   pkg_url: PKG_URLS[(idx-1)%PKG_URLS.length],

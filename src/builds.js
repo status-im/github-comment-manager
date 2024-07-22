@@ -71,7 +71,7 @@ class Builds {
   }
 
   async addBuild ({repo, pr, build}) {
-    log.info(`Storing build for ${repo}/PR-${pr}: #${build.id} for ${build.platform}`)
+    log.info(`Storing build for ${repo}/PR-${pr}: #${build.id} for ${build.platform}/${build.arch}`)
     return await this.builds.insert({repo, pr, ...build})
   }
 
