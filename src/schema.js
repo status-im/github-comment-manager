@@ -1,4 +1,4 @@
-const Joi = require('joi')
+import Joi from 'joi'
  
 const schema = Joi.object().keys({
   id: Joi.alternatives().try(Joi.number().positive(), Joi.string()).required(),
@@ -10,4 +10,4 @@ const schema = Joi.object().keys({
   pkg_url: Joi.string().uri().allow(null),
 })
 
-module.exports = schema
+export default schema

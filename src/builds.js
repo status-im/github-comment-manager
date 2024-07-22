@@ -1,6 +1,6 @@
-const log = require('loglevel')
-const Joi = require('joi')
-const Loki = require('lokijs')
+import log from 'loglevel'
+import Joi from 'joi'
+import Loki from 'lokijs'
 
 class Builds {
   constructor(path, interval) {
@@ -95,4 +95,4 @@ class Builds {
   }
 }
 
-module.exports = Builds
+export default Builds

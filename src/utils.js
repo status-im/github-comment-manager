@@ -16,4 +16,4 @@ const extractArchiveBuilds = (builds) => {
   return {visible, archived}
 }
 
-module.exports = { extractArchiveBuilds }
+export default extractArchiveBuilds

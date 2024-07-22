@@ -1,4 +1,4 @@
-const Handlebars = require('handlebars')
+import Handlebars from 'handlebars'
 
 /* loop helper compares commits of build and previous build */
 const commitChanged = (data, index, options) => {
@@ -57,7 +57,7 @@ const genQRCodeUrl = (data) => {
   ].join(''))
 }
 
-module.exports = {
+export default {
   commitChanged,
   formatDate,
   fileExt,

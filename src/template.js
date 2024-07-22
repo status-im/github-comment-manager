@@ -35,4 +35,11 @@ const buildRow = `
   {{/if}}
 {{/if}}
 `.trim()
-module.exports = { main, partials: {buildRow, buildsTable} }
+
+export default {
+  main,
+  partials: {
+    buildRow,
+    buildsTable
+  }
+}

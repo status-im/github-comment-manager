@@ -1,10 +1,10 @@
-const log = require('loglevel')
-const Koa = require('koa')
-const JSON = require('koa-json')
-const Logger = require('koa-logger')
-const JsonError = require('koa-json-error')
-const JoiRouter = require('koa-joi-router')
-const BodyParser = require('koa-bodyparser')
+import log from 'loglevel'
+import Koa from 'koa'
+import JSON from 'koa-json'
+import Logger from 'koa-logger'
+import JsonError from 'koa-json-error'
+import JoiRouter from 'koa-joi-router'
+import BodyParser from 'koa-bodyparser'
 
 const App = ({ghc, schema}) => {
   const app = new Koa()
@@ -75,4 +75,4 @@ const App = ({ghc, schema}) => {
   return app
 }
 
-module.exports = App
+export default App

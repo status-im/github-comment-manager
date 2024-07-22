@@ -1,10 +1,10 @@
-const log = require('loglevel')
-const AwaitLock = require('await-lock')
-const Handlebars = require('handlebars')
+import log from 'loglevel'
+import AwaitLock from 'await-lock'
+import Handlebars from 'handlebars'
 
-const utils = require('./utils')
-const helpers = require('./helpers')
-const template = require('./template')
+import extractArchiveBuilds from './utils.js'
+import helpers from './helpers.js'
+import template from './template.js'
 
 class Comments {
   constructor({client, owner, repos, builds}) {
@@ -31,7 +31,7 @@ class Comments {
       throw Error('No builds exist for this PR')
     }
     /* split to be able to fold if there are too many builds */
-    const {visible, archived} = utils.extractArchiveBuilds(builds)
+    const {visible, archived} = extractArchiveBuilds(builds)
     return this.template({visible, archived})
   }
 
@@ -88,4 +88,4 @@ class Comments {
   }
 }
 
-module.exports = Comments
+export default Comments
