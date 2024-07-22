@@ -26,6 +26,9 @@ const builds = new Builds(DB_PATH, DB_SAVE_INTERVAL)
 /* necessary to post and update comments */
 const gh = new Octokit({auth: `token ${GH_TOKEN}`})
 
+const { data } = await gh.request("/user")
+console.log(`GitHub Login: ${data.login}`)
+
 const ghc = new Comments({
   client: gh,
   owner: GH_REPO_OWNER,
