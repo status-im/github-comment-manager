@@ -1,6 +1,6 @@
 {
   "name": "github-comment-manager",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Minimal API for managing GitHub comments for CIclicks.",
   "repository": "https://github.com/status-im/github-comment-manager",
   "type": "module",

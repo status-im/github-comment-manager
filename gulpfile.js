@@ -3,6 +3,9 @@ const mocha = require('gulp-mocha')
 const print = require('gulp-print').default
 const run = require('gulp-run-command').default
 const nodemon = require('gulp-nodemon')
+const { version } = require('./package.json')
+
+const IMAGE_TAG = `v${version}`
 
 exports.devel = () =>
   nodemon({
@@ -19,8 +22,8 @@ exports.test_watch = () =>
   gulp.src('test/**/*.js', {read: false})
     .pipe(mocha({sort: true, reporter: 'list', watch: true}))
 
-exports.image_build = run('docker build -t statusteam/ghcmgr .')
-exports.image_push = run('docker push statusteam/ghcmgr')
+exports.image_build = run(`docker build -t harbor.status.im/status-im/ghcmgr:${IMAGE_TAG} .`)
+exports.image_push = run(`docker push harbor.status.im/status-im/ghcmgr:${IMAGE_TAG}`)
 exports.image = exports.image_build
 exports.push = exports.image
 exports.default = exports.test
