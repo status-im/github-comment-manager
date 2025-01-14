@@ -49,13 +49,19 @@ const genQRCodeUrl = (data) => {
   if (!data.endsWith('apk') && !data.includes('i.diawi.com')) {
     return ''
   }
-  return new Handlebars.SafeString([
-    '[:calling:]',
-    '(https://chart.apis.google.com/',
-    `chart?cht=qr&chs=400x400&chld=L%7C%0A1&chl=`,
-    encodeURIComponent(data), ')'
-  ].join(''))
+
+  const baseUrl = 'https://quickchart.io/qr'
+  const queryParams = new URLSearchParams({
+    text: data,
+    size: '400x400',
+    errorCorrectionLevel: 'L',
+  })
+
+  return new Handlebars.SafeString(
+    `[:calling:](https://quickchart.io/qr?${queryParams.toString()})`
+  )
 }
+
 
 export default {
   commitChanged,
