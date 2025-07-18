@@ -1,9 +1,9 @@
-const tmp = require('tmp')
-const expect = require('chai').expect
-const sinon = require('sinon')
+import tmp from 'tmp'
+import { expect } from 'chai'
+import sinon from 'sinon'
 
-const sample = require('./sample')
-const Builds = require('../src/builds')
+import sample from './sample.js'
+import Builds from '../src/builds.js'
 
 tmp.setGracefulCleanup()
 

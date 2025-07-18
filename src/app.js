@@ -46,7 +46,7 @@ const App = ({ghc, schema}) => {
       ctx.body = {status:'ok'}
     }
   })
-  
+
   /* just re-render the comment */
   router.post('/builds/:repo/:pr/refresh', async (ctx) => {
     await ghc.safeUpdate(ctx.params)

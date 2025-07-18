@@ -39,4 +39,4 @@ const COMMENTS = [
   { pr: 'PR-3', comment_id: 9753 },
 ]
 
-module.exports = { BUILD, BUILDS, COMMENTS }
+export default { BUILD, BUILDS, COMMENTS }

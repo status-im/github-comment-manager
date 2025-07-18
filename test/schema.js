@@ -1,9 +1,9 @@
-const expect = require('chai').expect
-const sinon = require('sinon')
-const Joi = require('joi')
+import { expect } from 'chai'
+import sinon from 'sinon'
+import Joi from 'joi'
 
-const sample = require('./sample')
-const schema = require('../src/schema')
+import sample from './sample.js'
+import schema from '../src/schema.js'
 
 let build
 
