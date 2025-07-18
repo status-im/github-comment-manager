@@ -17,6 +17,8 @@ const fileExt = (data) => {
   let ext = 'pkg' /* generic option for unexpected situations */
   if (data.includes('diawi')) {
     ext = 'ipa' /* diawi urls don't contain file extension */
+  } else if (data.includes('allure')) {
+    ext = 'rpt' /* three-letter extensions just look nicer */
   } else if (data.endsWith('tar.gz')) {
     ext = 'tgz' /* three-letter extensions just look nicer */
   } else if (data.endsWith('consoleText') || data == 'log') {
@@ -35,6 +37,7 @@ const fileIcon = (data) => {
     case 'ipa': return ':iphone:';
     case 'exe': return ':cd:';
     case 'dmg': return ':apple:';
+    case 'rpt': return ':bar_chart:';
     case 'log': return ':page_facing_up:';
     default:    return ':package:';
   }

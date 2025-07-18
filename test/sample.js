@@ -7,6 +7,7 @@ const PKG_URLS = [
   'https://unknown.example.org/path/package',
   null,
   'https://example.org/StatusIm-123-456-abc-pr.tar.gz',
+  'https://ci.example.org/job/path/allure/',
 ]
 
 /* example valid build */
