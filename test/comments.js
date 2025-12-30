@@ -52,7 +52,7 @@ describe('Comments', () => {
       },
     }
     builds = sinon.createStubInstance(Builds, {
-      getBuilds: sample.BUILDS.slice(0, 2),
+      getBuilds: sample.getBuildsWithCommits([2]),
     })
     comments = new Comments({
       client: client,
@@ -68,15 +68,63 @@ describe('Comments', () => {
       expect(comments._renderComment('PR-ID')).rejectedWith('No builds exist for this PR')
     })
 
-    it('should render less than 3 comments fully', async () => {
-      let body = await comments._renderComment('PR-ID')
-      expect(body).to.eq(COMMENT)
+    it('should show single commit in full even if >12 builds', async () => {
+      // 15 builds for one commit - should show all without folding
+      const manyBuilds = sample.getBuildsWithCommits([15])
+      builds.getBuilds.returns(manyBuilds)
+      let body = await comments._renderComment({repo: 'test-repo', pr: 'PR-ID'})
+      expect(body).to.include('COMMIT-0')
+      expect(body).to.not.include('<details>')
     })
 
-    it('should render more than 3 comments folded', async () => {
-      builds.getBuilds.returns(sample.BUILDS)
-      let body = await comments._renderComment('PR-ID')
-      expect(body).to.eq(COMMENT_FOLDED)
+    it('should show last two commits if they fit within 12', async () => {
+      // 2 commits with 5 builds each (10 total) - should show both
+      const twoCommits = sample.getBuildsWithCommits([5, 5])
+      builds.getBuilds.returns(twoCommits)
+      let body = await comments._renderComment({repo: 'test-repo', pr: 'PR-ID'})
+      expect(body).to.include('COMMIT-0')
+      expect(body).to.include('COMMIT-1')
+      expect(body).to.not.include('<details>')
+    })
+
+    it('should fold when last two commits exceed 12', async () => {
+      // 2 commits with 10 builds each (20 total) - should show only last commit
+      const manyBuilds = sample.getBuildsWithCommits([10, 10])
+      builds.getBuilds.returns(manyBuilds)
+      let body = await comments._renderComment({repo: 'test-repo', pr: 'PR-ID'})
+      expect(body).to.include('COMMIT-1')
+      expect(body).to.include('<details>')
+      expect(body).to.include('Click to see older builds (10)')
+    })
+
+    it('should show exactly 12 builds without folding', async () => {
+      // 1 commit with 12 builds exactly
+      const twelveBuilds = sample.getBuildsWithCommits([12])
+      builds.getBuilds.returns(twelveBuilds)
+      let body = await comments._renderComment({repo: 'test-repo', pr: 'PR-ID'})
+      expect(body).to.not.include('<details>')
+    })
+
+    it('should show last two commits when they exactly hit limit', async () => {
+      // 3 commits: 5, 6, 6 builds (17 total) - should show last two (12 builds)
+      const threeCommits = sample.getBuildsWithCommits([5, 6, 6])
+      builds.getBuilds.returns(threeCommits)
+      let body = await comments._renderComment({repo: 'test-repo', pr: 'PR-ID'})
+      expect(body).to.include('COMMIT-1')
+      expect(body).to.include('COMMIT-2')
+      expect(body).to.include('<details>')
+      expect(body).to.include('Click to see older builds (5)')
+    })
+
+    it('should show only last two commits even when three would fit', async () => {
+      // 3 commits with 2 builds each (6 total) - should show only last two commits
+      const threeSmallCommits = sample.getBuildsWithCommits([2, 2, 2])
+      builds.getBuilds.returns(threeSmallCommits)
+      let body = await comments._renderComment({repo: 'test-repo', pr: 'PR-ID'})
+      expect(body).to.include('COMMIT-1')
+      expect(body).to.include('COMMIT-2')
+      expect(body).to.include('<details>')
+      expect(body).to.include('Click to see older builds (2)')
     })
   })
 

@@ -40,4 +40,19 @@ const COMMENTS = [
   { pr: 'PR-3', comment_id: 9753 },
 ]
 
-export default { BUILD, BUILDS, COMMENTS }
+const getBuildsWithCommits = (commitSizes) => {
+  let builds = []
+  let idx = 1
+  commitSizes.forEach((size, commitIdx) => {
+    for (let i = 0; i < size; i++) {
+      builds.push({
+        ...getBuild(idx),
+        commit: `COMMIT-${commitIdx}`
+      })
+      idx++
+    }
+  })
+  return builds
+}
+
+export default { BUILD, BUILDS, COMMENTS, getBuild, getBuildsWithCommits }

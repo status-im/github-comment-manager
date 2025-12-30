@@ -1,19 +1,18 @@
-/* how many builds to show without folding */
-const VIS_BUILDS = 3
+/* maximum number of builds to show without folding */
+const MAX_VISIBLE_BUILDS = 12
 
-/* adds archive attribute to builds to mark for folding in template */
 const extractArchiveBuilds = (builds) => {
-  /* get unique commits */
-  const commits = [...new Set(builds.map(b=>b.commit))]
-  /* if there's not too many don't archive any */
-  if (commits.length < VIS_BUILDS) {
-    return {visible: builds, archived: []}
+  const latestStart = builds.findIndex(b => b.commit === builds[builds.length - 1].commit)
+  
+  /* try including second-to-latest commit if it fits */
+  if (latestStart > 0) {
+    const secondStart = builds.findIndex(b => b.commit === builds[latestStart - 1].commit)
+    if (builds.length - secondStart <= MAX_VISIBLE_BUILDS) {
+      return {visible: builds.slice(secondStart), archived: builds.slice(0, secondStart)}
+    }
   }
-  /* split builds into visible and archived */
-  const archivedCommits = commits.slice(0, -(VIS_BUILDS-1))
-  const archived = builds.filter(b => archivedCommits.includes(b.commit))
-  const visible  = builds.slice(archived.length)
-  return {visible, archived}
+  
+  return {visible: builds.slice(latestStart), archived: builds.slice(0, latestStart)}
 }
 
 export default extractArchiveBuilds
