@@ -12,7 +12,8 @@ const PKG_URLS = [
 
 /* example valid build */
 const BUILD = {
-  id: 'ID-1',
+  id: 1,
+  name: 'ID-1',
   commit: 'abcd1234',
   success: true,
   platform: 'PLATFORM-1',
@@ -22,7 +23,8 @@ const BUILD = {
 }
 
 const getBuild = (idx) => ({
-  id: `ID-${idx}`,
+  id: idx,
+  name: `ID-${idx}`,
   commit: `COMMIT-${Math.floor(idx/4)}`,
   success: (idx%3) ? true : false,
   platform: `PLATFORM-${idx}`,

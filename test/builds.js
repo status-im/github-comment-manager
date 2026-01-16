@@ -8,13 +8,13 @@ import Builds from '../src/builds.js'
 tmp.setGracefulCleanup()
 
 const BUILDS = [
-  {...sample.BUILD, id: '#1', commit: 'abcd1234', platform: 'macos'},
-  {...sample.BUILD, id: '#2', commit: '1234abcd', platform: 'macos'},
-  {...sample.BUILD, id: '#1', commit: 'abcd1234', platform: 'linux'},
-  {...sample.BUILD, id: '#2', commit: 'abcd1234', platform: 'linux'},
-  {...sample.BUILD, id: '#3', commit: '1234abcd', platform: 'linux'},
-  {...sample.BUILD, id: '#1', commit: 'abcd1234', platform: 'windows'},
-  {...sample.BUILD, id: '#2', commit: '1234abcd', platform: 'windows'},
+  {...sample.BUILD, id: 1, name: '#1', commit: 'abcd1234', platform: 'macos'},
+  {...sample.BUILD, id: 2, name: '#2', commit: '1234abcd', platform: 'macos'},
+  {...sample.BUILD, id: 1, name: '#1', commit: 'abcd1234', platform: 'linux'},
+  {...sample.BUILD, id: 2, name: '#2', commit: 'abcd1234', platform: 'linux'},
+  {...sample.BUILD, id: 3, name: '#3', commit: '1234abcd', platform: 'linux'},
+  {...sample.BUILD, id: 1, name: '#1', commit: 'abcd1234', platform: 'windows'},
+  {...sample.BUILD, id: 2, name: '#2', commit: '1234abcd', platform: 'windows'},
 ]
 
 let builds, db
@@ -51,13 +51,13 @@ describe('Builds', () => {
         return build
       })
       expect(rval).to.deep.equal([
-        { id: '#1', commit: 'abcd1234', platform: 'macos' },
-        { id: '#1', commit: 'abcd1234', platform: 'linux' },
-        { id: '#2', commit: 'abcd1234', platform: 'linux' },
-        { id: '#1', commit: 'abcd1234', platform: 'windows' },
-        { id: '#2', commit: '1234abcd', platform: 'macos' },
-        { id: '#3', commit: '1234abcd', platform: 'linux' },
-        { id: '#2', commit: '1234abcd', platform: 'windows' },
+        { id: 1, name: '#1', commit: 'abcd1234', platform: 'macos' },
+        { id: 1, name: '#1', commit: 'abcd1234', platform: 'linux' },
+        { id: 2, name: '#2', commit: 'abcd1234', platform: 'linux' },
+        { id: 1, name: '#1', commit: 'abcd1234', platform: 'windows' },
+        { id: 2, name: '#2', commit: '1234abcd', platform: 'macos' },
+        { id: 3, name: '#3', commit: '1234abcd', platform: 'linux' },
+        { id: 2, name: '#2', commit: '1234abcd', platform: 'windows' },
       ])
     })
   })
