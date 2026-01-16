@@ -77,6 +77,17 @@ describe('Comments', () => {
       expect(body).to.not.include('<details>')
     })
 
+    it('should render a single comment fully', async () => {
+      let body = await comments._renderComment('PR-ID')
+      expect(body).to.eq(COMMENT)
+    })
+
+    it('should render 2 out of 4 commits', async () => {
+      builds.getBuilds.returns(sample.BUILDS)
+      let body = await comments._renderComment('PR-ID')
+      expect(body).to.eq(COMMENT_FOLDED)
+    })
+
     it('should show last two commits if they fit within 12', async () => {
       // 2 commits with 5 builds each (10 total) - should show both
       const twoCommits = sample.getBuildsWithCommits([5, 5])
