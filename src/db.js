@@ -4,12 +4,9 @@ import { Level } from 'level'
 
 const pad = (id, width) => String(id).replace(/[#PR]/g, '').padStart(width, '0')
 
-/* FIXME: Stop using hardcoded org name. */
-const OLD_ORG = 'status-im'
-
-const kBuild = ({repo, pr, ts, id}) => `build!${OLD_ORG}!${repo}!${pad(pr, 6)}!${ts}!${pad(id, 8)}`
-const kBuildPrefix = ({repo, pr}) => `build!${OLD_ORG}!${repo}!${pad(pr, 6)}`
-const kComment = ({repo, pr}) => `comment!${OLD_ORG}!${repo}!${pad(pr, 6)}`
+const kBuild = ({org, repo, pr, ts, id}) => `build!${org}!${repo}!${pad(pr, 6)}!${ts}!${pad(id, 8)}`
+const kBuildPrefix = ({org, repo, pr}) => `build!${org}!${repo}!${pad(pr, 6)}`
+const kComment = ({org, repo, pr}) => `comment!${org}!${repo}!${pad(pr, 6)}`
 
 class DB {
   constructor(path) {
@@ -55,24 +52,24 @@ class DB {
     return this.sortBuildsByCommit(Object.values(builds))
   }
 
-  async removeBuilds ({repo, pr}) {
-    log.info(`Removing builds for ${repo}/PR-${pr}`)
-    const builds = await this.getAllForPrefix(kBuildPrefix({repo, pr}))
+  async removeBuilds ({org, repo, pr}) {
+    log.info(`Removing builds for ${org}/${repo}#${pr}`)
+    const builds = await this.getAllForPrefix(kBuildPrefix({org, repo, pr}))
     const keys = Object.keys(builds)
     await this.db.batch(keys.map(k => ({type: 'del', key: k})))
     return keys
   }
 
-  async addBuild ({repo, pr, build}) {
-    log.info(`Storing build for ${repo}/PR-${pr}: #${build.id} for ${build.platform}`)
+  async addBuild ({org, repo, pr, build}) {
+    log.info(`Storing build for ${org}/${repo}#${pr}: #${build.id} for ${build.platform}`)
     const ts = Date.now()
     build['created'] = ts
-    return await this.db.put(kBuild({repo, pr, ts, id: build.id}), build, {sync:true})
+    return await this.db.put(kBuild({org, repo, pr, ts, id: build.id}), build, {sync:true})
   }
 
-  async addComment ({repo, pr, id}) {
-    log.info(`Storing comment for ${repo}#${pr}: ${id}`)
-    return await this.db.put(kComment({repo, pr}), id, {sync: true})
+  async addComment ({org, repo, pr, id}) {
+    log.info(`Storing comment for ${org}/${repo}#${pr}: ${id}`)
+    return await this.db.put(kComment({org, repo, pr}), id, {sync:true})
   }
 
   async getCommentID (obj) {

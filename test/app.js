@@ -48,26 +48,26 @@ describe('App', () => {
     })
   })
 
-  describe('POST /builds/:repo/:pr', () => {
+  describe('POST /builds/:org/:repo/:pr', () => {
     it('should store the POSTed build', async () => {
       const resp = await request(app.callback())
-        .post('/builds/REPO-1/PR-1')
+        .post('/builds/ORG-1/REPO-1/PR-1')
         .send(sample.BUILD)
       expect(resp.body).to.eql({status:'ok'})
       expect(resp.status).to.eq(201)
       expect(ghc.db.addBuild).calledOnceWith({
-        repo: 'REPO-1', pr: 'PR-1', build: sample.BUILD,
+        org: 'ORG-1', repo: 'REPO-1', pr: 'PR-1', build: sample.BUILD,
       })
       expect(ghc.safeUpdate).calledOnceWith({
-        repo: 'REPO-1', pr: 'PR-1'
+        org: 'ORG-1', repo: 'REPO-1', pr: 'PR-1'
       })
     })
   })
 
-  describe('GET /builds/:repo/:pr', () => {
+  describe('GET /builds/:org/:repo/:pr', () => {
     it('should return list of builds', async () => {
       const resp = await request(app.callback())
-        .get('/builds/REPO-1/PR-1')
+        .get('/builds/ORG-1/REPO-1/PR-1')
       expect(resp.body).to.eql({
         count: sample.BUILDS.length, builds: sample.BUILDS,
       })
@@ -75,30 +75,30 @@ describe('App', () => {
     })
   })
 
-  describe('DELETE /builds/:repo/:pr', () => {
+  describe('DELETE /builds/:org/:repo/:pr', () => {
     it('should delete all matching builds', async () => {
       const resp = await request(app.callback())
-        .delete('/builds/REPO-1/PR-1')
+        .delete('/builds/ORG-1/REPO-1/PR-1')
       expect(resp.body.count).to.eql(sample.BUILDS.length)
       expect(resp.status).to.eq(200)
       expect(ghc.db.removeBuilds).calledOnceWith({
-        repo: 'REPO-1', pr: 'PR-1',
+        org: 'ORG-1', repo: 'REPO-1', pr: 'PR-1',
       })
     })
   })
 
-  describe('POST /builds/:repo/:pr/refresh', () => {
+  describe('POST /builds/:org/:repo/:pr/refresh', () => {
     it('should update github comment', async () => {
       const resp = await request(app.callback())
-        .post('/builds/REPO-1/PR-1/refresh')
+        .post('/builds/ORG-1/REPO-1/PR-1/refresh')
         .send(sample.BUILD)
       expect(resp.body).to.eql({status:'ok'})
       expect(resp.status).to.eq(201)
       expect(ghc.db.addBuild).not.calledOnceWith({
-        repo: 'REPO-1', pr: 'PR-1', build: sample.BUILD
+        org: 'ORG-1', repo: 'REPO-1', pr: 'PR-1', build: sample.BUILD
       })
       expect(ghc.safeUpdate).calledOnceWith({
-        repo: 'REPO-1', pr: 'PR-1',
+        org: 'ORG-1', repo: 'REPO-1', pr: 'PR-1',
       })
     })
   })

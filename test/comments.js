@@ -56,10 +56,7 @@ describe('Comments', () => {
       getPRBuilds: sample.getBuildsWithCommits([2]),
     })
     comments = new Comments({
-      client: client,
-      owner: 'owner',
-      repos: ['repo'],
-      db: db
+      client: client, db: db, whitelist: ['repo']
     })
   })
 
@@ -143,12 +140,12 @@ describe('Comments', () => {
   describe('_postComment', () => {
     it('should create a new comment', async () => {
       let id = await comments._postComment({
-        repo: 'REPO-1', pr: 'PR-ID',
+        org: 'ORG-1', repo: 'REPO-1', pr: 'PR-ID',
       })
       expect(id).to.eq('ISSUE-ID')
       expect(client.issues.createComment).calledOnceWith({
         body: sinon.match.any,
-        owner: 'owner',
+        owner: 'ORG-1',
         issue_number: 'PR-ID',
         repo: 'REPO-1',
       })
@@ -158,12 +155,12 @@ describe('Comments', () => {
   describe('_updateComment', () => {
     it('should update existing comment', async () => {
       let id = await comments._updateComment({
-        repo: 'REPO-1', pr: 'PR-ID', id: 'COMMENT-ID',
+        org: 'ORG-1', repo: 'REPO-1', pr: 'PR-ID', id: 'COMMENT-ID',
       })
       expect(id).to.eq('ISSUE-ID')
       expect(client.issues.updateComment).calledOnceWith({
         body: sinon.match.any,
-        owner: 'owner',
+        owner: 'ORG-1',
         comment_id: 'COMMENT-ID',
         repo: 'REPO-1',
       })

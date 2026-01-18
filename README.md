@@ -22,10 +22,10 @@ The problem this solves is posting comments in a PR from multiple builds without
 
 It exposes 3 calls:
 
-* `GET /builds/:repo/:pr` - Return all known builds for given PR in repo.
-* `POST /builds/:repo/:pr` - Add a new build result and update the PR comment.
-* `POST /builds/:repo/:pr/refresh` - Re-render the comment for given PR ID.
-* `DELETE /builds/:repo/:pr` - Delete all known builds for given PR ID in repo. 
+* `GET /builds/:org/:repo/:pr` - Return all known builds for given PR in repo.
+* `POST /builds/:org/:repo/:pr` - Add a new build result and update the PR comment.
+* `POST /builds/:org/:repo/:pr/refresh` - Re-render the comment for given PR ID.
+* `DELETE /builds/:org/:repo/:pr` - Delete all known builds for given PR ID in repo. 
 * `POST /comments` - Show currently managed comments in PRs.
 
 By default it listens on `localhost:8000`.
@@ -41,10 +41,10 @@ $ cat << EOF
 }
 EOF >> /tmp/body/json
 
-$ curl -s -XPOST http://localhost:8000/builds/my-repo/7123 -d@/tmp/body.json -H 'Content-Type: application/json'
+$ curl -s -XPOST http://localhost:8000/builds/my-org/my-repo/7123 -d@/tmp/body.json -H 'Content-Type: application/json'
 { "status": "ok" }
 
-$ curl -s -XPOST http://localhost:8000/builds/my-repo/7123/refresh
+$ curl -s -XPOST http://localhost:8000/builds/my-org/my-repo/7123/refresh
 { "status": "ok" }
 ```
 You can also check all PRs the application knows about:
@@ -62,11 +62,9 @@ $ curl -s http://localhost:8000/comments
 There are few environment variables you can set:
 
 * `LISTEN_PORT` - Self explanatory. (Default: `8000`)
-* `DB_SAVE_INTERVAL` - How often database is written to disk. (Default: `5000`)
 * `DB_PATH` - Path where the [LevelDB](https://github.com/google/leveldb) DB file is stored. (Default: `/tmp/builds.db`)
 * `GH_TOKEN` - Required for GitHub API access.
-* `GH_REPO_OWNER` - Name of owner of repo to manage.
-* `GH_REPO_NAMES` - Whitelist of names of GitHub repos to manage. (Empty means all)
+* `GH_WHITELIST` - Whitelist of names of GitHub repos to manage(Ex: `status-im/status-app`).
 
 # Building
 

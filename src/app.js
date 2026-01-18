@@ -32,7 +32,7 @@ const App = ({ghc, schema}) => {
   /* store build and post/update the comment */
   router.route({
     method: 'post',
-    path: '/builds/:repo/:pr',
+    path: '/builds/:org/:repo/:pr',
     validate: {
       type: 'json',
       body: schema,
@@ -48,20 +48,20 @@ const App = ({ghc, schema}) => {
   })
 
   /* just re-render the comment */
-  router.post('/builds/:repo/:pr/refresh', async (ctx) => {
+  router.post('/builds/:org/:repo/:pr/refresh', async (ctx) => {
     await ghc.safeUpdate(ctx.params)
     ctx.status = 201
     ctx.body = {status:'ok'}
   })
 
   /* list builds for repo+pr */
-  router.get('/builds/:repo/:pr', async (ctx) => {
+  router.get('/builds/:org/:repo/:pr', async (ctx) => {
     const builds = await ghc.db.getPRBuilds(ctx.params)
     ctx.body = {count: builds.length, builds}
   })
 
   /* drop builds for repo+pr */
-  router.delete('/builds/:repo/:pr', async (ctx) => {
+  router.delete('/builds/:org/:repo/:pr', async (ctx) => {
     const builds = await ghc.db.removeBuilds(ctx.params)
     ctx.body = {count: builds.length, builds}
   })

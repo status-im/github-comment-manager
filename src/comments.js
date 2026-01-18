@@ -7,11 +7,10 @@ import helpers from './helpers.js'
 import template from './template.js'
 
 class Comments {
-  constructor({client, owner, repos, db}) {
+  constructor({client, db, whitelist}) {
     this.gh = client
     this.db = db
-    this.repos = repos /* whitelist of repos to which we post */
-    this.owner = owner /* name of user who makes the comments */
+    this.whitelist = whitelist /* repos to which we post */
     this.locks = {}    /* locks per repo+pr avoid race cond.  */
     /* add template helpers */
     Object.entries(helpers).forEach(([name, helper]) => (
@@ -25,8 +24,8 @@ class Comments {
     this.template = Handlebars.compile(template.main);
   }
 
-  async _renderComment ({repo, pr}) {
-    const builds = await this.db.getPRBuilds({repo, pr})
+  async _renderComment ({org, repo, pr}) {
+    const builds = await this.db.getPRBuilds({org, repo, pr})
     if (builds.length == 0) {
       throw Error('No builds exist for this PR')
     }
@@ -35,50 +34,47 @@ class Comments {
     return this.template({visible, archived})
   }
 
-  async _postComment ({repo, pr}) {
-    log.info(`Creating comment in PR-${pr}`)
-    const body = await this._renderComment({repo, pr})
+  async _postComment ({org, repo, pr}) {
+    log.info(`Creating comment ${org}/${repo}#${pr}`)
+    const body = await this._renderComment({org, repo, pr})
     const rval = await this.gh.issues.createComment({
-      owner: this.owner,
-      repo: repo,
-      issue_number: pr,
-      body,
+      owner: org, repo: repo, issue_number: pr, body,
     })
     return rval.data.id
   }
 
-  async _updateComment ({repo, pr, id}) {
-    log.info(`Updating comment #${id} in PR-${pr}`)
-    const body = await this._renderComment({repo, pr})
+  async _updateComment ({org, repo, pr, id}) {
+    log.info(`Updating comment #${id} in ${org}/${repo}#${pr}`)
+    const body = await this._renderComment({org, repo, pr})
     const rval = await this.gh.issues.updateComment({
-      owner: this.owner, repo, comment_id: id, body,
+      owner: org, repo, comment_id: id, body,
     })
     return rval.data.id
   }
 
-  async update ({repo, pr}) {
+  async update ({org, repo, pr}) {
     /* check if repo is in a whitelist */
-    if (!this.repos.includes(repo)) {
-      throw Error(`Repo not whitelisted: ${repo}`)
+    if (!this.whitelist.includes(`${org}/${repo}`)) {
+      throw Error(`Repo not whitelisted: ${org}/${repo}`)
     }
     /* check if comment was already posted */
-    let id = await this.db.getCommentID({repo, pr})
+    let id = await this.db.getCommentID({org, repo, pr})
     if (id) {
-      await this._updateComment({repo, pr, id})
+      await this._updateComment({org, repo, pr, id})
     } else {
-      id = await this._postComment({repo, pr})
-      await this.db.addComment({repo, pr, id})
+      id = await this._postComment({org, repo, pr})
+      await this.db.addComment({org, repo, pr, id})
     }
   }
 
-  async safeUpdate ({repo, pr}) {
+  async safeUpdate ({org, repo, pr}) {
     /* we use a lock to avoid creating multiple comments */
-    let key = repo + pr
+    const key = org + repo + pr
     /* use existing lock for repo+pr or create a new one */
     this.locks[key] || ( this.locks[key] = new AwaitLock() )
     await this.locks[key].acquireAsync()
     try {
-      await this.update({repo, pr})
+      await this.update({org, repo, pr})
     } finally {
       this.locks[key].release()
     }
