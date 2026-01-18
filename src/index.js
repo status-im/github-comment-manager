@@ -3,7 +3,7 @@ import Logger from 'koa-logger'
 import { Octokit } from '@octokit/rest'
 
 import App from './app.js'
-import Builds from './builds.js'
+import DB from './db.js'
 import Comments from './comments.js'
 import schema from './schema.js'
 
@@ -17,11 +17,10 @@ const DB_PATH          = process.env.DB_PATH          || '/tmp/builds.db'
 const DB_SAVE_INTERVAL = process.env.DB_SAVE_INTERVAL || 5000
 
 /* set the logging level (TRACE, DEBUG, INFO, WARN, ERROR, SILENT) */
-console.dir(log)
 log.setDefaultLevel(log.levels[LOG_LEVEL])
 
-/* to store current builds bound to a PR */
-const builds = new Builds(DB_PATH, DB_SAVE_INTERVAL)
+/* LevelDB for builds and comments. */
+const db = new DB(DB_PATH)
 
 /* necessary to post and update comments */
 const gh = new Octokit({auth: `token ${GH_TOKEN}`})
@@ -33,7 +32,7 @@ const ghc = new Comments({
   client: gh,
   owner: GH_REPO_OWNER,
   repos: GH_REPO_NAMES.split(','),
-  builds: builds,
+  db: db,
 })
 const app = App({ghc, schema})
 

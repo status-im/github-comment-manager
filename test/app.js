@@ -4,7 +4,7 @@ import request from 'supertest'
 
 import sample from './sample.js'
 import App from '../src/app.js'
-import Builds from '../src/builds.js'
+import DB from '../src/db.js'
 import Comments from '../src/comments.js'
 
 let ghc, app
@@ -12,9 +12,10 @@ let ghc, app
 describe('App', () => {
   beforeEach(() => {
     ghc = sinon.createStubInstance(Comments)
-    ghc.db = sinon.createStubInstance(Builds, {
+    ghc.db = sinon.createStubInstance(DB, {
       getComments: sample.COMMENTS,
-      getBuilds: sample.BUILDS,
+      getPRBuilds: sample.BUILDS,
+      removeBuilds: sample.BUILDS,
     }),
     app = App({ghc})
   })
@@ -78,7 +79,7 @@ describe('App', () => {
     it('should delete all matching builds', async () => {
       const resp = await request(app.callback())
         .delete('/builds/REPO-1/PR-1')
-      expect(resp.body).to.eql({})
+      expect(resp.body.count).to.eql(sample.BUILDS.length)
       expect(resp.status).to.eq(200)
       expect(ghc.db.removeBuilds).calledOnceWith({
         repo: 'REPO-1', pr: 'PR-1',

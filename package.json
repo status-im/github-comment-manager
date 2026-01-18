@@ -1,6 +1,6 @@
 {
   "name": "github-comment-manager",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "Minimal API for managing GitHub comments for CIclicks.",
   "repository": "https://github.com/status-im/github-comment-manager",
   "type": "module",
@@ -20,7 +20,7 @@
     "koa-json-error": "^3.1.2",
     "koa-logger": "^4.0.0",
     "loglevel": "^1.9.2",
-    "lokijs": "^1.5.12"
+    "level": "^10.0.0"
   },
   "devDependencies": {
     "chai": "^5.2.1",

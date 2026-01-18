@@ -31,15 +31,15 @@ const getBuild = (idx) => ({
   duration: `DURATION-${idx} 12 sec`,
   url: `URL-${idx}/`,
   pkg_url: PKG_URLS[(idx-1)%PKG_URLS.length],
-  meta: { created: 1545294300000+(idx*56789) },
+  created: 1545294300000+(idx*56789),
 })
 
 const BUILDS = Array.apply(null, Array(12)).map((v,i)=>getBuild(i+1))
 
 const COMMENTS = [
-  { pr: 'PR-1', comment_id: 1234 },
-  { pr: 'PR-2', comment_id: 4321 },
-  { pr: 'PR-3', comment_id: 9753 },
+  { pr: 'PR-1', id: 1234 },
+  { pr: 'PR-2', id: 4321 },
+  { pr: 'PR-3', id: 9753 },
 ]
 
 const getBuildsWithCommits = (commitSizes) => {

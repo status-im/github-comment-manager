@@ -7,9 +7,9 @@ import helpers from './helpers.js'
 import template from './template.js'
 
 class Comments {
-  constructor({client, owner, repos, builds}) {
+  constructor({client, owner, repos, db}) {
     this.gh = client
-    this.db = builds
+    this.db = db
     this.repos = repos /* whitelist of repos to which we post */
     this.owner = owner /* name of user who makes the comments */
     this.locks = {}    /* locks per repo+pr avoid race cond.  */
@@ -26,7 +26,7 @@ class Comments {
   }
 
   async _renderComment ({repo, pr}) {
-    const builds = await this.db.getBuilds({repo, pr})
+    const builds = await this.db.getPRBuilds({repo, pr})
     if (builds.length == 0) {
       throw Error('No builds exist for this PR')
     }
@@ -47,14 +47,11 @@ class Comments {
     return rval.data.id
   }
 
-  async _updateComment ({repo, pr, comment_id}) {
-    log.info(`Updating comment #${comment_id} in PR-${pr}`)
+  async _updateComment ({repo, pr, id}) {
+    log.info(`Updating comment #${id} in PR-${pr}`)
     const body = await this._renderComment({repo, pr})
     const rval = await this.gh.issues.updateComment({
-      owner: this.owner,
-      repo: repo,
-      comment_id,
-      body,
+      owner: this.owner, repo, comment_id: id, body,
     })
     return rval.data.id
   }
@@ -65,12 +62,12 @@ class Comments {
       throw Error(`Repo not whitelisted: ${repo}`)
     }
     /* check if comment was already posted */
-    let comment_id = await this.db.getCommentID({repo, pr})
-    if (comment_id) {
-      await this._updateComment({repo, pr, comment_id})
+    let id = await this.db.getCommentID({repo, pr})
+    if (id) {
+      await this._updateComment({repo, pr, id})
     } else {
-      comment_id = await this._postComment({repo, pr})
-      await this.db.addComment({repo, pr, comment_id})
+      id = await this._postComment({repo, pr})
+      await this.db.addComment({repo, pr, id})
     }
   }
 

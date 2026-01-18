@@ -56,20 +56,27 @@ const App = ({ghc, schema}) => {
 
   /* list builds for repo+pr */
   router.get('/builds/:repo/:pr', async (ctx) => {
-    const builds = await ghc.db.getBuilds(ctx.params)
+    const builds = await ghc.db.getPRBuilds(ctx.params)
     ctx.body = {count: builds.length, builds}
   })
 
   /* drop builds for repo+pr */
   router.delete('/builds/:repo/:pr', async (ctx) => {
-    const rval = await ghc.db.removeBuilds(ctx.params)
-    ctx.body = {}
+    const builds = await ghc.db.removeBuilds(ctx.params)
+    ctx.body = {count: builds.length, builds}
+  })
+
+  /* list all builds */
+  router.get('/builds', async (ctx) => {
+    const builds = await ghc.db.getBuilds(ctx.params)
+    const keys = Object.keys(builds)
+    ctx.body = {count: keys.length, builds: keys}
   })
 
   /* list all managed comments */
   router.get('/comments', async (ctx) => {
     const comments = await ghc.db.getComments()
-    ctx.body = {count: comments.length, comments}
+    ctx.body = {count: Object.keys(comments).length, comments}
   })
 
   return app

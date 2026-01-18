@@ -52,10 +52,9 @@ You can also check all PRs the application knows about:
 $ curl -s http://localhost:8000/comments
 {
   "count": 2,
-  "comments": [
-    { "pr": "7000", "comment_id": 446940840 },
-    { "pr": "7084", "comment_id": 446779864 }
-  ]
+  "comments": {
+    "comment!status-im!status-go!001111": 3765199111
+  }
 }
 ```
 # Configuration
@@ -64,7 +63,7 @@ There are few environment variables you can set:
 
 * `LISTEN_PORT` - Self explanatory. (Default: `8000`)
 * `DB_SAVE_INTERVAL` - How often database is written to disk. (Default: `5000`)
-* `DB_PATH` - Path where the [LokiJS](http://lokijs.org/#/) DB file is stored. (Default: `/tmp/builds.db`)
+* `DB_PATH` - Path where the [LevelDB](https://github.com/google/leveldb) DB file is stored. (Default: `/tmp/builds.db`)
 * `GH_TOKEN` - Required for GitHub API access.
 * `GH_REPO_OWNER` - Name of owner of repo to manage.
 * `GH_REPO_NAMES` - Whitelist of names of GitHub repos to manage. (Empty means all)

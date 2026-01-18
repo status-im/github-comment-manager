@@ -3,7 +3,11 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import sample from './sample.js'
-import Builds from '../src/builds.js'
+import DB from '../src/db.js'
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 tmp.setGracefulCleanup()
 
@@ -17,18 +21,16 @@ const BUILDS = [
   {...sample.BUILD, id: 2, name: '#2', commit: '1234abcd', platform: 'windows'},
 ]
 
-let builds, db
+let dbDir, db
 
 describe('Builds', () => {
   before(() => {
-    db = tmp.fileSync({keep: false})
-    builds = new Builds(db.name, 999)
-    builds.initDB()
+    dbDir = tmp.dirSync({mode: 0o750, prefix: 'level.db'})
+    db = new DB(dbDir.name)
   })
 
   after(() => {
-    builds.db.close()
-    db.removeCallback()
+    db.db.close()
   })
 
   describe('getBuilds', () => {
@@ -36,20 +38,20 @@ describe('Builds', () => {
       /* need to add the builds before they can be sorted */
       for (let i=0; i<BUILDS.length; i++) {
         let b = BUILDS[i]
-        await builds.addBuild({repo: 'REPO-1', pr: 'PR-1', build: b})
-        /* verify the build was added */
-        let rval = await builds.builds.findOne({id: b.id, platform: b.platform})
-        expect(rval.commit).to.equal(BUILDS[i].commit)
+        await db.addBuild({repo: 'REPO-1', pr: 1, build: b})
       }
+      /* verify the builds were added */
+      expect(BUILDS.length).to.equal(Object.keys(await db.getBuilds()).length)
     })
 
     it('should sort by commits and ids', async () => {
-      let rval = await builds.getBuilds('REPO-1', 'PR-1')
+      let rval = await db.getPRBuilds({repo: 'REPO-1', pr: 1})
       /* remove fields we don't care about for easier comparison */
       rval = rval.map((b) => {
-        const { pr, repo, success, duration, url, pkg_url, meta, ...build } = b
-        return build
+        const { id, name, commit, platform } = b
+        return { id, name, commit, platform }
       })
+      /* compare lists without requiring ordering */
       expect(rval).to.deep.equal([
         { id: 1, name: '#1', commit: 'abcd1234', platform: 'macos' },
         { id: 1, name: '#1', commit: 'abcd1234', platform: 'linux' },
