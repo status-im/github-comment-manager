@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
 LABEL source="https://github.com/status-im/github-comment-manager" \
       description="Basic NodeJS API for managing CI build GitHub posts." \
