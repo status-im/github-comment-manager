@@ -1,7 +1,10 @@
 /* maximum number of builds to show without folding */
 const MAX_VISIBLE_BUILDS = 12
 
-const extractArchiveBuilds = (builds) => {
+const extractArchiveBuilds = (allBuilds) => {
+  /* Limit builds to avoid exceeding GitHub's 65536 character comment size limit.
+   * https://docs.github.com/en/rest/issues/comments#update-an-issue-comment */
+  const builds = allBuilds.slice(-500)
   const latestStart = builds.findIndex(b => b.commit === builds[builds.length - 1].commit)
 
   /* try including second-to-latest commit if it fits */

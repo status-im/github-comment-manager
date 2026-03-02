@@ -135,6 +135,19 @@ describe('Comments', () => {
       expect(body).to.include('<details>')
       expect(body).to.include('Click to see older builds (2)')
     })
+
+    it('should limit builds to 500 and drop oldest', async () => {
+      // 510 builds across 51 commits (10 each) - oldest 10 should be dropped
+      const commitSizes = Array(51).fill(10)
+      const manyBuilds = sample.getBuildsWithCommits(commitSizes)
+      db.getPRBuilds.returns(manyBuilds)
+      let body = await comments._renderComment({repo: 'test-repo', pr: 'PR-ID'})
+      // First commit (10 builds) should be dropped
+      expect(body).to.not.include('| COMMIT-0 |')
+      // Remaining commits should still be present
+      expect(body).to.include('| COMMIT-1 |')
+      expect(body).to.include('| COMMIT-50 |')
+    })
   })
 
   describe('_postComment', () => {
