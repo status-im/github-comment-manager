@@ -38,10 +38,10 @@ const COMMENT_FOLDED = `
 |-|-|-|-|-|-|-|
 | :heavy_check_mark: | COMMIT-2 | [8](URL-8/) | 2018-12-20 08:32:34 | DURATION-8 | \`PLATFORM-8\` | [:package:\`tgz\`](https://example.org/StatusIm-123-456-abc-pr.tar.gz) |
 | :heavy_multiplication_x: | COMMIT-2 | [9](URL-9/) | 2018-12-20 08:33:31 | DURATION-9 | \`PLATFORM-9\` | [:bar_chart:\`rpt\`](https://ci.example.org/job/path/allure/) |
-| :heavy_check_mark: | COMMIT-2 | [10](URL-10/) | 2018-12-20 08:34:27 | DURATION-10 | \`PLATFORM-10\` | [:robot:\`apk\`](https://example.org/StatusIm-123-456-abc-pr.apk) [:calling:](https://quickchart.io/qr?text=https%3A%2F%2Fexample.org%2FStatusIm-123-456-abc-pr.apk&size=400x400&errorCorrectionLevel=L)|
-| :heavy_check_mark: | COMMIT-2 | [11](URL-11/) | 2018-12-20 08:35:24 | DURATION-11 | \`PLATFORM-11\` | [:cd:\`exe\`](https://example.org/StatusIm-123-456-abc-pr.exe) |
+| :heavy_check_mark: | COMMIT-2 | [10](URL-10/) | 2018-12-20 08:34:27 | DURATION-10 | \`PLATFORM-10\` | [:bar_chart:\`prf\`](https://example.org/benchmarks/) |
+| :heavy_check_mark: | COMMIT-2 | [11](URL-11/) | 2018-12-20 08:35:24 | DURATION-11 | \`PLATFORM-11\` | [:robot:\`apk\`](https://example.org/StatusIm-123-456-abc-pr.apk) [:calling:](https://quickchart.io/qr?text=https%3A%2F%2Fexample.org%2FStatusIm-123-456-abc-pr.apk&size=400x400&errorCorrectionLevel=L)|
 | | | | | | | |
-| :x: | COMMIT-3 | [12](URL-12/) | 2018-12-20 08:36:21 | DURATION-12 | \`PLATFORM-12\` | [:page_facing_up:\`log\`](URL-12/consoleText) |
+| :heavy_multiplication_x: | COMMIT-3 | [12](URL-12/) | 2018-12-20 08:36:21 | DURATION-12 | \`PLATFORM-12\` | [:cd:\`exe\`](https://example.org/StatusIm-123-456-abc-pr.exe) |
 `
 
 describe('Comments', () => {
