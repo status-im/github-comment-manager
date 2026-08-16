@@ -1,0 +1,19 @@
+---
+name: tests
+on:
+  pull_request:
+    branches: [master]
+jobs:
+  build:
+    name: Yarn Test
+    runs-on: [self-hosted, Linux]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependecnies
+        shell: bash
+        run: nix develop --command yarn install
+
+      - name: Run yarn test
+        shell: bash
+        run: nix develop --command yarn test
