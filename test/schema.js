@@ -69,6 +69,12 @@ describe('Schema', () => {
       expect(rval.value).to.eql(build)
     })
 
+    it('can list several artifact urls', () => {
+      build.pkg_url = 'https://i.diawi.com/ABCDxyz1 https://example.org/Status.dmg'
+      let rval = schema.validate(build)
+      expect(rval.value).to.eql(build)
+    })
+
     it('can\'t be a number', () => {
       build.pkg_url = 1
       let rval = schema.validate(build)

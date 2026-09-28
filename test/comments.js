@@ -29,7 +29,7 @@ const COMMENT_FOLDED = `
 | :x: | COMMIT-0 | [3](URL-3/) | 2018-12-20 08:27:50 | DURATION-3 | \`PLATFORM-3\` | [:page_facing_up:\`log\`](URL-3/consoleText) |
 | | | | | | | |
 | :heavy_check_mark: | COMMIT-1 | [4](URL-4/) | 2018-12-20 08:28:47 | DURATION-4 | \`PLATFORM-4\` | [:package:\`App\`](https://example.org/StatusIm-123-456-abc-pr.AppImage) |
-| :heavy_check_mark: | COMMIT-1 | [5](URL-5/) | 2018-12-20 08:29:43 | DURATION-5 | \`PLATFORM-5\` | [:iphone:\`ipa\`](https://i.diawi.com/ABCDxyz1) [:calling:](https://quickchart.io/qr?text=https%3A%2F%2Fi.diawi.com%2FABCDxyz1&size=400x400&errorCorrectionLevel=L)|
+| :heavy_check_mark: | COMMIT-1 | [5](URL-5/) | 2018-12-20 08:29:43 | DURATION-5 | \`PLATFORM-5\` | [:iphone:\`diawi\`](https://i.diawi.com/ABCDxyz1) [:calling:](https://quickchart.io/qr?text=https%3A%2F%2Fi.diawi.com%2FABCDxyz1&size=400x400&errorCorrectionLevel=L)|
 | :heavy_multiplication_x: | COMMIT-1 | [6](URL-6/) | 2018-12-20 08:30:40 | DURATION-6 | \`PLATFORM-6\` | [:package:\`pkg\`](https://unknown.example.org/path/package) |
 | :interrobang: | COMMIT-1 | [7](URL-7/) | 2018-12-20 08:31:37 | DURATION-7 | \`PLATFORM-7\` | [:page_facing_up:\`log\`](URL-7/consoleText) |
 </details>
