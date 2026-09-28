@@ -12,11 +12,24 @@ const formatDate = (data) => new Handlebars.SafeString(
   (new Date(data)).toISOString('utc').slice(0, 19).replace('T', ' ')
 )
 
+const pkgUrls = (data) => {
+  if (!data) { return [] }
+  return String(data).split(/\s+/).filter(Boolean)
+}
+
+const isDiawiUrl = (data) => {
+  try {
+    return new URL(data).hostname === 'i.diawi.com'
+  } catch (e) {
+    return false
+  }
+}
+
 /* extracts file extension from url */
 const fileExt = (data) => {
   let ext = 'pkg' /* generic option for unexpected situations */
-  if (data.includes('diawi')) {
-    ext = 'ipa' /* diawi urls don't contain file extension */
+  if (isDiawiUrl(data)) {
+    return Handlebars.Utils.escapeExpression('diawi')
   } else if (data.includes('allure')) {
     ext = 'rpt' /* three-letter extensions just look nicer */
   } else if (data.includes('benchmark')) {
@@ -36,7 +49,8 @@ const fileIcon = (data) => {
   switch (fileExt(data)) {
     case 'pkg': return ':package:';
     case 'apk': return ':robot:';
-    case 'ipa': return ':iphone:';
+    case 'ipa':
+    case 'diawi': return ':iphone:';
     case 'exe': return ':cd:';
     case 'dmg': return ':apple:';
     case 'rpt': return ':bar_chart:';
@@ -51,14 +65,15 @@ const shortenDuration = (data) => (data.replace(/ [0-9]+ sec$/, ''))
 
 /* generate URL for a QR code of given text */
 const genQRCodeUrl = (data) => {
-  /* just for mobile packages, useless for others */
-  if (!data.endsWith('apk') && !data.includes('i.diawi.com')) {
-    return ''
-  }
+  const url = pkgUrls(data).find((u) => {
+    if (u.endsWith('apk')) { return true }
+    return isDiawiUrl(u)
+  })
+  if (!url) { return '' }
 
   const baseUrl = 'https://quickchart.io/qr'
   const queryParams = new URLSearchParams({
-    text: data,
+    text: url,
     size: '400x400',
     errorCorrectionLevel: 'L',
   })
@@ -72,6 +87,7 @@ const genQRCodeUrl = (data) => {
 export default {
   commitChanged,
   formatDate,
+  pkgUrls,
   fileExt,
   fileIcon,
   shortenDuration,
