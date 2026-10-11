@@ -12,6 +12,10 @@ const formatDate = (data) => new Handlebars.SafeString(
   (new Date(data)).toISOString('utc').slice(0, 19).replace('T', ' ')
 )
 
+const trimTrailingSlash = (data) => new Handlebars.SafeString(
+  data.endsWith('/') ? data.slice(0, -1) : data
+)
+
 /* extracts file extension from url */
 const fileExt = (data) => {
   let ext = 'pkg' /* generic option for unexpected situations */
@@ -68,6 +72,10 @@ const genQRCodeUrl = (data) => {
   )
 }
 
+const genStagesUrl = (data) => {
+  return new Handlebars.SafeString(`${trimTrailingSlash(data)}/stages/`)
+}
+
 
 export default {
   commitChanged,
@@ -76,4 +84,5 @@ export default {
   fileIcon,
   shortenDuration,
   genQRCodeUrl,
+  genStagesUrl,
 }
